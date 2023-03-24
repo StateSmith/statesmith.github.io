@@ -1,0 +1,20 @@
+div.Ex object.StateMachine {
+  scale: 1.2;
+}
+
+div.sm-vars code {
+  border: 1px solid #d63384;
+  padding: 2px;
+}
+
+div.sm-button-container {
+  margin-bottom: 45px;
+}
+
+div.Ex10 div.sm-button-container {
+  margin-bottom: 80px;
+}
+
+.SS_HIDE_WHILE_LOADING {
+  visibility: hidden;
+}
