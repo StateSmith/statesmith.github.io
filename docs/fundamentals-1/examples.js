@@ -1,3 +1,21 @@
+//   888    888  .d88888b.  888      8888888b.       888     888 8888888b.  888 888 888 
+//   888    888 d88P" "Y88b 888      888  "Y88b      888     888 888   Y88b 888 888 888 
+//   888    888 888     888 888      888    888      888     888 888    888 888 888 888 
+//   8888888888 888     888 888      888    888      888     888 888   d88P 888 888 888 
+//   888    888 888     888 888      888    888      888     888 8888888P"  888 888 888 
+//   888    888 888     888 888      888    888      888     888 888        Y8P Y8P Y8P 
+//   888    888 Y88b. .d88P 888      888  .d88P      Y88b. .d88P 888         "   "   "  
+//   888    888  "Y88888P"  88888888 8888888P"        "Y88888P"  888        888 888 888 
+//
+// Hey there! This isn't the best place to learn.
+//
+// The generated state machines have been modded/instrumented so that we can trace
+// the actions can taken and update the svg diagrams dynamically.
+//
+// Best to learn by checking out the StateSmith youtube channel or examples repo
+// https://github.com/StateSmith/StateSmith-examples
+//
+// However, if you would like to help improve the content here, hit us up github or discord!
 
 /**
  * @param {any} sm
