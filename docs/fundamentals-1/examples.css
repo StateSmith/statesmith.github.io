@@ -6,8 +6,12 @@ code {
   white-space: nowrap;
 }
 
-code a {
-  color: #d63384;
+.ss-standout {
+  color: #198754;
+}
+
+.ss-standout a {
+  color: inherit;
   font-weight: bold;
 }
 
