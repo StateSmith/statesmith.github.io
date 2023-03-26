@@ -23,6 +23,7 @@
   <script src="Ex05.js"></script>
   <script src="Ex06.js"></script>
   <script src="Ex08.js"></script>
+  <script src="Ex09.js"></script>
   <script src="Ex10.js"></script>
 </head>
 
@@ -304,44 +305,46 @@
 
 
 
-<!-- Ex06 -->
-<div class="b-example-divider"></div>
+    <!-- Ex06 -->
+    <div class="b-example-divider"></div>
 
-<div class="Ex06 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
-  <div class="SS_TEMPLATE_CONTENT">
+    <div class="Ex06 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
 
-    <div class="SS_TEMPLATE_CONTENT_LEFT">
-      <h1 class="SS_TEMPLATE_CONTENT_HEADER">Exit Actions</h1>
-      <p class="lead">Run action code when a state is exited.</p>
-      <p>In this example, if the <code>REGULAR_OPERATION</code> state is ever exited, we can be sure that the light is turned off.</p>
-      <p>Exit actions are great for ensuring safety, and clean up code.</p>
-      <p>This example also shows how a single transition or general state behavior can act on multiple events <code>(DIM, INCREASE)</code>.</p>
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Exit Actions</h1>
+          <p class="lead">Run action code when a state is exited.</p>
+          <p>In this example, if the <code>REGULAR_OPERATION</code> state is ever exited, we can be sure that the light
+            is turned off.</p>
+          <p>Exit actions are great for ensuring safety, and clean up code.</p>
+          <p>This example also shows how a single transition or general state behavior can act on multiple events
+            <code>(DIM, INCREASE)</code>.</p>
 
-      <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
-        <input class="form-check-input" type="checkbox" id="Ex06-auto-clear-highlights" checked="">
-        <label class="form-check-label" for="Ex06-auto-clear-highlights"
-          title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
-          highlights.</label>
+          <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex06-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex06-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+            <button type="button" class="Ex-button-err SS_TEMPLATE_BUTTON"
+              title="Press to send ERR event to state machine.">ERR</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex06.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
       </div>
-
-      <div class="SS_TEMPLATE_CONTENT_CONTROLS">
-        <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
-        <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
-          title="Press to send INCREASE event to state machine.">INCREASE</button>
-        <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
-          title="Press to send DIM event to state machine.">DIM</button>
-        <button type="button" class="Ex-button-err SS_TEMPLATE_BUTTON"
-          title="Press to send ERR event to state machine.">ERR</button>
-      </div>
-
     </div>
-
-    <div class="SS_TEMPLATE_CONTENT_RIGHT">
-      <object data="Ex06.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
-    </div>
-
-  </div>
-</div>
 
 
 
@@ -407,7 +410,8 @@
           <h1 class="SS_TEMPLATE_CONTENT_HEADER">Polled State Machines</h1>
           <p class="lead">Event driven vs. polled state machines. Choose 2.</p>
           <p>All the state machines that we have seen so far have been event driven.</p>
-          <p>When you press a <code>DIM</code> button on this page, the state machine's event handler function is invoked with the
+          <p>When you press a <code>DIM</code> button on this page, the state machine's event handler function is
+            invoked with the
             proper event ID. StateSmith state machines are event driven. They just sit waiting patiently for the next
             event using no CPU resources in the background.</p>
 
@@ -440,6 +444,61 @@
 
       </div>
     </div>
+
+
+
+
+<!-- Ex09 -->
+<div class="b-example-divider"></div>
+
+<div class="Ex09 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+  <div class="SS_TEMPLATE_CONTENT">
+
+    <div class="SS_TEMPLATE_CONTENT_LEFT">
+      <h1 class="SS_TEMPLATE_CONTENT_HEADER">Acting on Time</h1>
+      <p class="lead">State machines can react to any time source you choose.</p>
+      <p>You can use the current system time, a game time (that can be paused), a tick counter...</p>
+      <p>This example uses a timer <code>t1</code> to transition back to state <code>ON1</code> after 2.1 seconds.</p>
+      <p>In the future, we will make it easier to track time spent in a state.</p>
+
+      <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+        <input class="form-check-input" type="checkbox" id="Ex09-auto-clear-highlights" checked="">
+        <label class="form-check-label" for="Ex09-auto-clear-highlights"
+          title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+          highlights.</label>
+      </div>
+
+      <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+        <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+        <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+          title="Press to send INCREASE event to state machine.">INCREASE</button>
+        <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+          title="Press to send DIM event to state machine.">DIM</button>
+      </div>
+
+      <!-- hidden stuff to make it work -->
+      <div style="display: none;">
+        <select class="Ex-poll-rate form-select-sm">
+          <option value="350" selected></option>
+        </select>
+
+        <div class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+          <input class="form-check-input Ex-input-switch-1" type="checkbox" id="Ex01Polled-input-switch-1">
+          <label class="form-check-label" for="Ex01Polled-input-switch-1" title="State machine switch input.">Switch
+            input</label>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="SS_TEMPLATE_CONTENT_RIGHT">
+      <object data="Ex09.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+    </div>
+
+  </div>
+</div>
+
+
 
 
 

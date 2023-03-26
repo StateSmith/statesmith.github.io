@@ -126,6 +126,7 @@ window.onload = () => {
     new ExampleConfig(Ex05).setup();
     new ExampleConfig(Ex06).setup();
     setupEx08();
+    new ExampleConfig(Ex09).setup();
     setupEx10();
 };
 
