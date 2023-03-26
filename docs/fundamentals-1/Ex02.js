@@ -2,7 +2,7 @@
 // Algorithm: Balanced1. See https://github.com/StateSmith/StateSmith/wiki/Algorithms
 
 // Generated state machine
-class Ex01
+class Ex02
  extends Ex10Base{
     static EventId = 
     {
@@ -32,7 +32,7 @@ class Ex01
     #ancestorEventHandler;
     
     // Used internally by state machine. Don't modify.
-    #currentEventHandlers = Array(Ex01.EventIdCount).fill(undefined);
+    #currentEventHandlers = Array(Ex02.EventIdCount).fill(undefined);
     
     // Used internally by state machine. Don't modify.
     #currentStateExitHandler;
@@ -40,6 +40,7 @@ class Ex01
     // Variables. Can be used for inputs, outputs, user variables...
     vars = {
         count: 0,
+        switch_is_on: false,
     };
     
     // Starts the state machine. Must be called before dispatching events. Not thread safe.
@@ -68,7 +69,7 @@ class Ex01
                 this.#OFF_enter();
                 
                 // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-                this.stateId = Ex01.StateId.OFF;
+                this.stateId = Ex02.StateId.OFF;
                 // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
                 return;
             } // end of behavior for ROOT.InitialState
@@ -76,7 +77,7 @@ class Ex01
     }
     
     // Dispatches an event to the state machine. Not thread safe.
-    dispatchEvent(/** @type {Ex01.EventId} */ eventId)
+    dispatchEvent(/** @type {Ex02.EventId} */ eventId)
     {
         let behaviorFunc = this.#currentEventHandlers[eventId];
         
@@ -90,7 +91,7 @@ class Ex01
     
     // This function is used when StateSmith doesn't know what the active leaf state is at
     // compile time due to sub states or when multiple states need to be exited.
-    #exitUpToStateHandler(/** @type {Ex01.Func} */ desiredStateExitHandler)
+    #exitUpToStateHandler(/** @type {Ex02.Func} */ desiredStateExitHandler)
     {
         while (this.#currentStateExitHandler != desiredStateExitHandler)
         {
@@ -123,7 +124,7 @@ class Ex01
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#OFF_exit;
-        this.#currentEventHandlers[Ex01.EventId.INCREASE] = this.#OFF_increase;
+        this.#currentEventHandlers[Ex02.EventId.INCREASE] = this.#OFF_increase;
         
         // OFF behavior
         // uml: enter / { trace_enter("OFF", "16"); }
@@ -151,7 +152,7 @@ class Ex01
         
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[Ex01.EventId.INCREASE] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[Ex02.EventId.INCREASE] = null;  // no ancestor listens to this event
     }
     
     #OFF_increase()
@@ -159,19 +160,19 @@ class Ex01
         // No ancestor state handles `increase` event.
         
         // OFF behavior
-        // uml: INCREASE / { trace_transition("34"); } TransitionTo(ON1)
+        // uml: INCREASE / { trace_transition("34");light_blue(); } TransitionTo(ON1)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#OFF_exit();
             
-            // Step 2: Transition action: `trace_transition("34");`.
-            this.trace_transition("34");
+            // Step 2: Transition action: `trace_transition("34");light_blue();`.
+            this.trace_transition("34");this.light_blue();
             
             // Step 3: Enter/move towards transition target `ON1`.
             this.#ON1_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex01.StateId.ON1;
+            this.stateId = Ex02.StateId.ON1;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
         } // end of behavior for OFF
@@ -186,20 +187,13 @@ class Ex01
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#ON1_exit;
-        this.#currentEventHandlers[Ex01.EventId.DIM] = this.#ON1_dim;
+        this.#currentEventHandlers[Ex02.EventId.DIM] = this.#ON1_dim;
         
         // ON1 behavior
         // uml: enter / { trace_enter("ON1", "23"); }
         {
             // Step 1: execute action `trace_enter("ON1", "23");`
             this.trace_enter("ON1", "23");
-        } // end of behavior for ON1
-        
-        // ON1 behavior
-        // uml: enter / { trace_action("light_blue();", "24", "enter / { light_blue(); }");light_blue(); }
-        {
-            // Step 1: execute action `trace_action("light_blue();", "24", "enter / { light_blue(); }");light_blue();`
-            this.trace_action("light_blue();", "24", "enter / { light_blue(); }");this.light_blue();
         } // end of behavior for ON1
     }
     
@@ -214,7 +208,7 @@ class Ex01
         
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[Ex01.EventId.DIM] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[Ex02.EventId.DIM] = null;  // no ancestor listens to this event
     }
     
     #ON1_dim()
@@ -234,31 +228,31 @@ class Ex01
             this.#OFF_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex01.StateId.OFF;
+            this.stateId = Ex02.StateId.OFF;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
         } // end of behavior for ON1
     }
     
     // Thread safe.
-    stateIdToString(/** @type {Ex01.StateId} */ id)
+    stateIdToString(/** @type {Ex02.StateId} */ id)
     {
         switch (id)
         {
-            case Ex01.StateId.ROOT: return "ROOT";
-            case Ex01.StateId.OFF: return "OFF";
-            case Ex01.StateId.ON1: return "ON1";
+            case Ex02.StateId.ROOT: return "ROOT";
+            case Ex02.StateId.OFF: return "OFF";
+            case Ex02.StateId.ON1: return "ON1";
             default: return "?";
         }
     }
     
     // Thread safe.
-    eventIdToString(/** @type {Ex01.EventId} */ id)
+    eventIdToString(/** @type {Ex02.EventId} */ id)
     {
         switch (id)
         {
-            case Ex01.EventId.DIM: return "DIM";
-            case Ex01.EventId.INCREASE: return "INCREASE";
+            case Ex02.EventId.DIM: return "DIM";
+            case Ex02.EventId.INCREASE: return "INCREASE";
             default: return "?";
         }
     }

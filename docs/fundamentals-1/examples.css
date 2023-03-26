@@ -1,3 +1,7 @@
+.lead {
+  font-weight: 400;
+}
+
 div.Ex object.StateMachine {
   scale: 1.2;
 }

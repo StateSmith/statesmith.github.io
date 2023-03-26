@@ -112,21 +112,29 @@ class ExBase {
 
         let highlightColor = "#dc3545";
 
-        paths.forEach(o => {
-            this.setAttributeWithRestore(o, "stroke", highlightColor);
-            this.setAttributeWithRestore(o, "stroke-width", "2px");
-            if (shouldFill)
-                this.setAttributeWithRestore(o, "fill", highlightColor);
+        paths.forEach(path => {
+            this.setAttributeWithRestore(path, "stroke", highlightColor);
+            this.setAttributeWithRestore(path, "stroke-width", "2px");
+            if (shouldFillPath(path))
+                this.setAttributeWithRestore(path, "fill", highlightColor);
         });
 
         restoreMap.set(key, () => {
-            paths.forEach(o => {
-                this.restoreOldAttribute(o, "stroke");
-                this.restoreOldAttribute(o, "stroke-width");
-                if (shouldFill)
-                    this.restoreOldAttribute(o, "fill");
+            paths.forEach(path => {
+                this.restoreOldAttribute(path, "stroke");
+                this.restoreOldAttribute(path, "stroke-width");
+                if (shouldFillPath(path))
+                    this.restoreOldAttribute(path, "fill");
             });
         });
+
+        /**
+         * @param {SVGPathElement} path
+         */
+        function shouldFillPath(path) {
+            let fill = path.getAttribute("fill");
+            return shouldFill && fill && fill != "none";
+        }
     }
 
     /**
@@ -204,8 +212,8 @@ class Ex10Base extends ExBase {
         this.setLightBulbColor("yellow", "black");
     }
 
-    light_boom() {
-        console.log("light boom");
+    light_red() {
+        console.log("light red");
         this.setLightBulbColor("red");
     }
 }

@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Adam Fraser-Kruck">
+  <title>State Machine Fundamentals</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js">
+  <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="page.css" rel="stylesheet">
+  <link href="examples.css" rel="stylesheet">
+
+  <script src="examples.js"></script>
+  <script src="Ex.js"></script>
+  <script src="Ex01.js"></script>
+  <script src="Ex01Polled.js"></script>
+  <script src="Ex02.js"></script>
+  <script src="Ex03.js"></script>
+  <script src="Ex04.js"></script>
+  <script src="Ex05.js"></script>
+  <script src="Ex08.js"></script>
+  <script src="Ex10.js"></script>
+</head>
+
+<body>
+
+  <main>
+    <div class="px-4 py-5 my-5 text-center">
+      <h1 class="display-5 fw-bold">State Machine Fundamentals</h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">This page has a number of interactive examples to help you learn about StateSmith state
+          machines.</p>
+        <p class="lead mb-4">Scroll on down!</p>
+        <!-- <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
+          <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+        </div> -->
+      </div>
+    </div>
+
+
+    <!-- Ex01 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex01 SS_TEMPLATE_CONTAINER Ex container col-xl-10 col-xxl-8 px-4 py-5">
+      <div class="SS_TEMPLATE_CONTENT row align-items-center g-lg-5 py-5">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT col-lg-7 text-center text-lg-start">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER display-4 fw-bold lh-1 mb-3">Simple On Off</h1>
+          <p class="lead">This simple state machine controls the below lightbulb's color.</p>
+          <p>Try using the buttons below to send events to the Ex01 state machine. </p>
+          <p>When the <code>OFF</code> state is entered, it runs the code <code>light_off();</code>.</p>
+          <p>When the <code>ON1</code> state is entered, it runs the code <code>light_blue();</code>.</p>
+
+          <div style="display: none!important;"
+            class="SS_TEMPLATE_CONTENT_FORM_SWITCH mb-3 form-switch gap-2 d-flex justify-content-center justify-content-lg-start">
+            <input class="form-check-input" type="checkbox" id="Ex01-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex01-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div
+            class="SS_TEMPLATE_CONTENT_CONTROLS sm-button-container d-grid gap-2 d-flex justify-content-center justify-content-lg-start">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON btn btn-primary btn-lg px-4 me-md-2"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON btn btn-primary btn-lg px-4 me-md-2"
+              title="Press to send DIM event to state machine.">DIM</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT col-md-10 mx-auto col-lg-5">
+          <object data="Ex01.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- Ex02 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex02 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Actions on Transitions</h1>
+          <p class="lead">Transitions can also execute action code.</p>
+          <p>This example is equivalent to the above Ex01 example. I would actually prefer Ex01 in this scenario, but
+            this helps illustrate the point. Transition actions can be really handy.</p>
+          <p>The transition from state <code>OFF</code> to state <code>ON1</code> runs the code
+            <code>light_blue();</code>.
+          </p>
+
+          <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex02-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex02-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex02.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- Ex03 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex03 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Add More States</h1>
+          <p class="lead">Lightbulb state machine has more colors.</p>
+          <p>Nothing crazy. We have 3 on states, and one off state.</p>
+
+          <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex03-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex03-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex03.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Ex04 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex04 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Adding An <code>OFF</code> Event?</h1>
+          <p class="lead">A cleaner solution follows in Ex05...</p>
+          <p>What if we add an <code>OFF</code> event that shuts off the lightbulb no matter which state it is in?</p>
+          <p>We can have a transition from each <code>ON</code> state to the <code>OFF</code> state. This is OK for very
+            small designs like this one, but doesn't scale well.</p>
+
+          <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex04-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex04-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+            <button type="button" class="Ex-button-off SS_TEMPLATE_BUTTON"
+              title="Press to send OFF event to state machine.">OFF</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex04.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Ex05 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex05 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Nested States</h1>
+          <p class="lead">Add a parent state, and a single transition.</p>
+          <p>First, we nest all the <code>ON</code> states inside of <code>ON_GROUP</code>.</p>
+          <p>Then, we add a single transition from <code>ON_GROUP</code> to <code>OFF</code> for the <code>OFF</code>
+            event.</p>
+          <p>If none of the <code>ON</code> states handle the <code>OFF</code> event, then their parent
+            <code>ON_GROUP</code> state will handle the event and transition to <code>OFF</code>.
+          </p>
+          <p>In the next section, we will see how sharing transitions like this can make a <b>HUGE</b> improvement in
+            our designs.</p>
+
+          <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex05-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex05-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+            <button type="button" class="Ex-button-off SS_TEMPLATE_BUTTON"
+              title="Press to send OFF event to state machine.">OFF</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex05.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+    <!-- DARK -->
+    <div class="b-example-divider"></div>
+
+    <div class="bg-dark text-secondary px-4 py-5 text-center">
+      <div class="py-5">
+        <h1 class="display-5 fw-bold text-white">Hierarchical State Machines (HSMs)</h1>
+        <p class="lead">A Hierarchical State Machine (HSM) is a Finite State Machine (FSM), but with super powers!</p>
+        <p class="lead">Let's add a few more states to our design to make it a smart lightbulb and see the
+          <b>MASSIVE</b> difference a HSM can make.
+        </p>
+
+        <div class="bg-dark text-secondary text-center pt-5">
+          <div class="container col-xl-10 col-xxl-8 px-4">
+            <div class="row align-items-center g-lg-5">
+              <div class="col-lg-7 text-center text-lg-start my-0">
+                <h1 class="display-4 fw-bold lh-1 mb-3">Regular Flat FSM</h1>
+                <p class="lead">This comes from a real life example. Transition spaghetti mess.</p>
+                <p>Don't laugh. I've seen things much worse than this. I once received a design that looked like this
+                  spaghetti FSM mess except much bigger.</p>
+                <p>There were many hidden bugs and we eventually reimplemented the state machine with StateSmith
+                  utilizing a nested HSM design.</p>
+              </div>
+              <div class="SS_TEMPLATE_CONTENT_RIGHT col-md-10 mx-auto col-lg-5 mt-5">
+                <img src="compare1-fsm.drawio.svg">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark text-secondary text-center pt-5">
+          <div class="container col-xl-10 col-xxl-8 px-4">
+            <div class="row align-items-center g-lg-5">
+              <div class="col-lg-7 text-center text-lg-start my-0">
+                <h1 class="display-4 fw-bold lh-1 mb-3">HSM To The Rescue!</h1>
+                <p class="lead">Clear. Maintainable. Intuitive. Simple. Productive. Non-Repetitive.</p>
+                <p>When I reimplemented the real life FSM spaghetti mess with StateSmith and HSMs, a ton of problems and
+                  bugs instantly vanished.</p>
+                <p>We no longer wasted time playing whack-a-mole with bugs and oversights in the super messy, ultra
+                  repetitive design specifications.</p>
+                <p>The diagram was also simple enough that we shared it with the client. We would actually modify the
+                  StateSmith diagram live
+                  with the client over video calls. It was an incredibly powerful communication tool.
+                </p>
+              </div>
+              <div class="SS_TEMPLATE_CONTENT_RIGHT col-md-10 mx-auto col-lg-5 mt-5">
+                <img src="compare1-hsm.drawio.svg">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- Ex08 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex08 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Guards &amp; Variables</h1>
+          <p class="lead">State behaviors can also have guard conditions.</p>
+          <p>The transition from <code>ON2</code> to <code>ON_HOT</code> has a guard condition
+            <code>[count >= 3]</code>. This transition will only be taken on the <code>INCREASE</code> event if
+            <code>count >= 3</code>.
+          </p>
+          <p>Transition guards can be any code that evaluate to a boolean result. In this example, the guard tests a
+            state machine variable, but it could call a function, a bunch of functions, do some math...</p>
+          <p>Another interesting thing in this example is that we specify the order of the <code>ON2</code> behaviors
+            for the <code>INCREASE</code> event. We want to run <code>count++</code> before testing if we should
+            transition with <code>[count >= 3]</code>.</p>
+          <p>You can read more about <a href="https://github.com/StateSmith/StateSmith/wiki/Behaviors">state behaviors
+              here.</a></p>
+
+          <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex08-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex08-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="sm-vars mb-2 d-grid gap-2 d-flex justify-content-center justify-content-lg-start">
+            <div>State machine variables <code>count: <span class="sm-var-count-value">0</span></code></div>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex08.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- Ex01Polled -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex01Polled SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Polled State Machines</h1>
+          <p class="lead">Event driven vs. polled state machines. Choose 2.</p>
+          <p>All the state machines that we have seen so far have been event driven.</p>
+          <p>When you press a <code>DIM</code> button on this page, the state machine's event handler function is invoked with the
+            proper event ID. StateSmith state machines are event driven. They just sit waiting patiently for the next
+            event using no CPU resources in the background.</p>
+
+          <p>If you need to poll certain conditions, simply send the <code>DO</code> event to your state machine at the
+            rate you want. You have full control over how and when the state machine runs.</p>
+
+          <div class="d-grid gap-2 d-flex">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+
+            <div class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+              <input class="form-check-input Ex-input-switch-1" type="checkbox" id="Ex01Polled-input-switch-1">
+              <label class="form-check-label" for="Ex01Polled-input-switch-1" title="State machine switch input.">Switch
+                input</label>
+            </div>
+
+            <div class="">
+              <select class="Ex-poll-rate form-select-sm">
+                <option value="100">Poll at 0.1 sec</option>
+                <option value="500">Poll at 0.5 sec</option>
+                <option value="1000" selected>Poll at 1 sec</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex01Polled.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- Ex10 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex10 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Larger Example</h1>
+          <p>Try using the buttons below to send events to the Ex10 state machine.</p>
+          <p>When the <code>OFF</code> state is entered, it runs the code <code>light_off()</code>.</p>
+          <p>When the <code>ON1</code> state is entered, it runs the code <code>light_blue()</code>.</p>
+
+          <div class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex10-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex10-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="sm-vars mb-2 d-grid gap-2 d-flex justify-content-center justify-content-lg-start">
+            <div>State machine variables <code>count: <span class="sm-var-count-value">0</span></code></div>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INCREASE</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+            <button type="button" class="Ex-button-off SS_TEMPLATE_BUTTON"
+              title="Press to send OFF event to state machine.">OFF</button>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex10.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!--  -->
+    <div class="b-example-divider"></div>
+
+    <div class="bg-dark text-secondary px-4 py-5 text-center">
+      <div class="py-5">
+        <h1 class="display-5 fw-bold text-white">More stuff here</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="fs-5 mb-4">Some more text....</p>
+          <!-- <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button type="button" class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold">Custom button</button>
+            <button type="button" class="btn btn-outline-light btn-lg px-4">Secondary</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="b-example-divider mb-0"></div>
+  </main>
+
+
+  <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

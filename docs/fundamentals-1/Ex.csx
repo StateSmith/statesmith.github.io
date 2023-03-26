@@ -15,23 +15,26 @@ using StateSmith.SmGraph;
 using StateSmith.Output.Gil;
 using StateSmith.Input.DrawIo;
 
-GenEx01();
-GenEx10();
+GenSimple();
 
-static void GenEx01()
+static void GenSimple()
 {
-    SmRunner runner = new(diagramPath: "Ex01.drawio.svg", new Ex10Glue(), transpilerId: TranspilerId.JavaScript);
-    AddTransformers(runner);
-    runner.Run();
+    var list = new List<string>{"Ex01", "Ex01Polled", "Ex02", "Ex03", "Ex04", "Ex05", "Ex08", "Ex10"};
+
+    foreach (var exName in list)
+    {
+        SmRunner runner = new(diagramPath: $"{exName}.drawio.svg", new Ex10Glue(), transpilerId: TranspilerId.JavaScript);
+        AddTransformers(runner);
+        runner.Run();
+    }
 }
 
-static void GenEx10()
-{
-    SmRunner runner = new(diagramPath: "Ex10.drawio.svg", new Ex10Glue(), transpilerId: TranspilerId.JavaScript);
-    AddTransformers(runner);
-    runner.Settings.propagateExceptions = true;
-    runner.Run();
-}
+// static void GenEx10()
+// {
+//     SmRunner runner = new(diagramPath: "Ex10.drawio.svg", new Ex10Glue(), transpilerId: TranspilerId.JavaScript);
+//     AddTransformers(runner);
+//     runner.Run();
+// }
 
 static void AddTransformers(SmRunner runner)
 {
@@ -71,6 +74,7 @@ public class Ex10Glue : IRenderConfigJavaScript
 
     string IRenderConfig.AutoExpandedVars => @"
         count: 0,
+        switch_is_on: false,
     ";
 
     /// <summary>
@@ -87,7 +91,7 @@ public class Ex10Glue : IRenderConfigJavaScript
         public string light_off() => $"this.{AutoNameCopy()}()";
         public string light_blue() => $"this.{AutoNameCopy()}()";
         public string light_yellow() => $"this.{AutoNameCopy()}()";
-        public string light_boom() => $"this.{AutoNameCopy()}()";
+        public string light_red() => $"this.{AutoNameCopy()}()";
     }
 }
 
