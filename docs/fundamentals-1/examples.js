@@ -70,14 +70,17 @@ class ExampleConfig {
         sm.start();
 
         let autoClearCheckbox = getCheckboxById(`${exName}-auto-clear-highlights`);
-
         let postDispatch = this.postDispatch;
+        let countSpan = document.querySelector(`${divSelector} span.sm-var-count-value`);
 
         /**
          * @param {number} eventId
          */
         function myDispatch(eventId, ignoreForClearHighlights) {
             dispatchEventToSm(sm, eventId, autoClearCheckbox, ignoreForClearHighlights);
+
+            if (countSpan)
+                countSpan.innerHTML = sm.vars.count + "";
 
             if (postDispatch)
                 postDispatch();
@@ -113,21 +116,6 @@ function addOnClickIfExists(selector, action) {
         button.onclick = action;
 }
 
-function setupEx10() {
-    let config = new ExampleConfig(Ex10);
-    config.postDispatch = () => {
-        document.querySelector(`div.Ex10 span.sm-var-count-value`).innerHTML = config.sm.vars.count + "";
-    }
-    config.setup();
-}
-
-function setupEx08() {
-    let config = new ExampleConfig(Ex08);
-    config.postDispatch = () => {
-        document.querySelector(`div.Ex08 span.sm-var-count-value`).innerHTML = config.sm.vars.count + "";
-    }
-    config.setup();
-}
 
 function setupEx01Polled() {
     let config = new ExampleConfig(Ex01Polled);
@@ -143,9 +131,9 @@ window.onload = () => {
     new ExampleConfig(Ex04).setup();
     new ExampleConfig(Ex05).setup();
     new ExampleConfig(Ex06).setup();
-    setupEx08();
+    new ExampleConfig(Ex08).setup();
     new ExampleConfig(Ex09).setup();
-    setupEx10();
+    new ExampleConfig(Ex10).setup();
 };
 
 /**

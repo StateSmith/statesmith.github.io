@@ -115,10 +115,8 @@ I would really appreciate making the content work better on mobile devices.
         <div class="SS_TEMPLATE_CONTENT_LEFT">
           <h1 class="SS_TEMPLATE_CONTENT_HEADER">Actions on Transitions</h1>
           <p class="lead">Transitions can also execute action code.</p>
-          <p>This example is equivalent to the above Ex01 example. I would actually prefer Ex01 in this scenario, but
-            this helps illustrate the point. Transition actions can be really handy.</p>
           <p>The transition from state <code>OFF</code> to state <code>ON1</code> runs the code
-            <code>light_blue();</code>.
+            <code>count++;</code>. Action code can call a function, modify a state machine or global variable, or do almost anything.
           </p>
 
           <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
@@ -126,6 +124,10 @@ I would really appreciate making the content work better on mobile devices.
             <label class="form-check-label" for="Ex02-auto-clear-highlights"
               title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
               highlights.</label>
+          </div>
+
+          <div class="sm-vars mb-2 d-grid gap-2 d-flex justify-content-center justify-content-lg-start">
+            <div>State machine variables <code>count: <span class="sm-var-count-value">0</span></code></div>
           </div>
 
           <div class="SS_TEMPLATE_CONTENT_CONTROLS">

@@ -161,13 +161,13 @@ class Ex02
         // No ancestor state handles `increase` event.
         
         // OFF behavior
-        // uml: INCREASE / { trace_transition("34");light_blue(); } TransitionTo(ON1)
+        // uml: INCREASE / { trace_transition("34");count++; } TransitionTo(ON1)
         {
             // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
             this.#OFF_exit();
             
-            // Step 2: Transition action: `trace_transition("34");light_blue();`.
-            this.trace_transition("34");this.light_blue();
+            // Step 2: Transition action: `trace_transition("34");count++;`.
+            this.trace_transition("34");this.vars.count++;
             
             // Step 3: Enter/move towards transition target `ON1`.
             this.#ON1_enter();
@@ -195,6 +195,13 @@ class Ex02
         {
             // Step 1: execute action `trace_enter("ON1", "23");`
             this.trace_enter("ON1", "23");
+        } // end of behavior for ON1
+        
+        // ON1 behavior
+        // uml: enter / { trace_action("light_blue();", "24", "enter / { light_blue(); }");light_blue(); }
+        {
+            // Step 1: execute action `trace_action("light_blue();", "24", "enter / { light_blue(); }");light_blue();`
+            this.trace_action("light_blue();", "24", "enter / { light_blue(); }");this.light_blue();
         } // end of behavior for ON1
     }
     
