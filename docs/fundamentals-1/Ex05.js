@@ -43,6 +43,7 @@ class Ex05
     
     // Variables. Can be used for inputs, outputs, user variables...
     vars = {
+        t1_start_ms: 0,
         count: 0,
         switch_is_on: false,
     };

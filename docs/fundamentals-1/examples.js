@@ -3,14 +3,18 @@
  * @param {any} sm
  * @param {number} eventId
  * @param {HTMLInputElement} autoClearCheckbox
+ * @param {boolean} ignoreForClearHighlights
  */
-function dispatchEventToSm(sm, eventId, autoClearCheckbox) {
+function dispatchEventToSm(sm, eventId, autoClearCheckbox, ignoreForClearHighlights) {
     /** @type {ExBase} */
     let smBase = sm;
-    smBase.clearTempHighlights();
+
+    if (!ignoreForClearHighlights)
+        smBase.clearTempHighlights();
+
     sm.dispatchEvent(eventId);
 
-    if (autoClearCheckbox && autoClearCheckbox.checked) {
+    if (!ignoreForClearHighlights && autoClearCheckbox && autoClearCheckbox.checked) {
         window.clearTimeout(smBase.autoClearTimeoutId);
         smBase.autoClearTimeoutId = window.setTimeout(() => {
             smBase.clearTempHighlights();
@@ -22,7 +26,7 @@ class ExampleConfig {
     exName;
     smClass;
     postDispatch;
-
+    ignoreHighlightClearOnDoEvent = true;
     sm;
 
     constructor(smClass) {
@@ -47,15 +51,15 @@ class ExampleConfig {
 
         sm.start();
 
-        let checkboxId = getCheckboxById(`${exName}-auto-clear-highlights`);
+        let autoClearCheckbox = getCheckboxById(`${exName}-auto-clear-highlights`);
 
         let postDispatch = this.postDispatch;
 
         /**
          * @param {number} eventId
          */
-        function myDispatch(eventId) {
-            dispatchEventToSm(sm, eventId, checkboxId);
+        function myDispatch(eventId, ignoreForClearHighlights) {
+            dispatchEventToSm(sm, eventId, autoClearCheckbox, ignoreForClearHighlights);
 
             if (postDispatch)
                 postDispatch();
@@ -64,6 +68,7 @@ class ExampleConfig {
         addOnClickIfExists(`${divSelector} button.Ex-button-increase`, () => myDispatch(smClass.EventId.INCREASE));
         addOnClickIfExists(`${divSelector} button.Ex-button-dim`, () => myDispatch(smClass.EventId.DIM));
         addOnClickIfExists(`${divSelector} button.Ex-button-off`, () => myDispatch(smClass.EventId.OFF));
+        addOnClickIfExists(`${divSelector} button.Ex-button-err`, () => myDispatch(smClass.EventId.ERR));
 
         /** @type {HTMLSelectElement} */
         const pollRateSelect = document.querySelector(`${divSelector} select.Ex-poll-rate`);
@@ -75,7 +80,7 @@ class ExampleConfig {
                 /** @type {Ex01Polled} */
                 let typedSm = sm;
                 typedSm.vars.switch_is_on = switchInput.checked;
-                myDispatch(smClass.EventId.DO);
+                myDispatch(smClass.EventId.DO, true && this.ignoreHighlightClearOnDoEvent);
                 window.setTimeout(pollFunction, parseInt(pollRateSelect.value));
             };
             pollFunction();
@@ -106,13 +111,20 @@ function setupEx08() {
     config.setup();
 }
 
+function setupEx01Polled() {
+    let config = new ExampleConfig(Ex01Polled);
+    config.ignoreHighlightClearOnDoEvent = false; // required for polled example
+    config.setup();
+}
+
 window.onload = () => {
     new ExampleConfig(Ex01).setup();
-    new ExampleConfig(Ex01Polled).setup();
+    setupEx01Polled();
     new ExampleConfig(Ex02).setup();
     new ExampleConfig(Ex03).setup();
     new ExampleConfig(Ex04).setup();
     new ExampleConfig(Ex05).setup();
+    new ExampleConfig(Ex06).setup();
     setupEx08();
     setupEx10();
 };

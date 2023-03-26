@@ -19,7 +19,7 @@ GenSimple();
 
 static void GenSimple()
 {
-    var list = new List<string>{"Ex01", "Ex01Polled", "Ex02", "Ex03", "Ex04", "Ex05", "Ex08", "Ex10"};
+    var list = new List<string>{"Ex01", "Ex01Polled", "Ex02", "Ex03", "Ex04", "Ex05", "Ex06", "Ex08", "Ex10"};
 
     foreach (var exName in list)
     {
@@ -77,6 +77,10 @@ public class Ex10Glue : IRenderConfigJavaScript
         switch_is_on: false,
     ";
 
+    string IRenderConfig.VariableDeclarations => @"
+        t1_start_ms: 0,
+    ";
+
     /// <summary>
     /// These expansions allow you to write clear concise code in diagrams.
     /// More info: https://github.com/StateSmith/StateSmith/blob/main/docs/diagram-features.md#write-code-directly-or-use-expansions
@@ -92,6 +96,18 @@ public class Ex10Glue : IRenderConfigJavaScript
         public string light_blue() => $"this.{AutoNameCopy()}()";
         public string light_yellow() => $"this.{AutoNameCopy()}()";
         public string light_red() => $"this.{AutoNameCopy()}()";
+
+        // could also use regular js timers instead
+        public string t1_start_ms => $"{AutoVarName()}";
+        public string now_ms => $"Date.now()";
+        public string t1_ms => $"{now_ms} - {t1_start_ms}";
+        public string t1Restart() => $"{t1_start_ms} = {now_ms}";
+        public string t1After(string timeStr) => $"{t1_ms} >= {TimeStrToMs(timeStr)}";
+    }
+
+    public static string TimeStrToMs(string timeStr)
+    {
+        return TimeStringParser.ElapsedTimeStringToMs(timeStr).ToString();
     }
 }
 
@@ -110,7 +126,7 @@ public class MyTracingModder : NamedVisitor
         {
             if (b.HasTransition())
             {
-                b.actionCode = $"trace_transition(\"{b.DiagramId}\");" + b.actionCode;
+                b.actionCode = $"trace_transition(\"{b.DiagramId}\");" + EscapeCharsForString(b.actionCode);
             }
             else if (b.HasActionCode())
             {
@@ -149,6 +165,7 @@ public class MyTracingModder : NamedVisitor
     {
         if (str == null) return null;
 
+        str = StringUtils.ReplaceNewLineChars(str, "\\n");
         str = Regex.Replace(str, @"(\\|"")", "\\$1");
         return str;
     }

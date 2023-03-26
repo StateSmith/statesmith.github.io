@@ -2,26 +2,25 @@
 // Algorithm: Balanced1. See https://github.com/StateSmith/StateSmith/wiki/Algorithms
 
 // Generated state machine
-class Ex10
+class Ex06
  extends Ex10Base{
     static EventId = 
     {
-        DO : 0, // The `do` event is special. State event handlers do not consume this event (ancestors all get it too) unless a transition occurs.
-        DIM : 1,
+        DIM : 0,
+        ERR : 1,
         INCREASE : 2,
-        OFF : 3,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 4;
+    static EventIdCount = 3;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
     {
         ROOT : 0,
-        OFF : 1,
-        ON_GROUP : 2,
-        ON_HOT : 3,
+        ERROR : 1,
+        REGULAR_OPERATION : 2,
+        OFF : 3,
         ON1 : 4,
         ON2 : 5,
     }
@@ -37,7 +36,7 @@ class Ex10
     #ancestorEventHandler;
     
     // Used internally by state machine. Don't modify.
-    #currentEventHandlers = Array(Ex10.EventIdCount).fill(undefined);
+    #currentEventHandlers = Array(Ex06.EventIdCount).fill(undefined);
     
     // Used internally by state machine. Don't modify.
     #currentStateExitHandler;
@@ -64,26 +63,25 @@ class Ex10
             // ROOT.InitialState is a pseudo state and cannot have an `enter` trigger.
             
             // ROOT.InitialState behavior
-            // uml: / { trace_transition("14"); } TransitionTo(OFF)
+            // uml: / { trace_transition("41"); } TransitionTo(REGULAR_OPERATION)
             {
                 // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
                 
-                // Step 2: Transition action: `trace_transition("14");`.
-                this.trace_transition("14");
+                // Step 2: Transition action: `trace_transition("41");`.
+                this.trace_transition("41");
                 
-                // Step 3: Enter/move towards transition target `OFF`.
-                this.#OFF_enter();
+                // Step 3: Enter/move towards transition target `REGULAR_OPERATION`.
+                this.#REGULAR_OPERATION_enter();
                 
-                // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-                this.stateId = Ex10.StateId.OFF;
-                // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-                return;
+                // Finish transition by calling pseudo state transition function.
+                this.#REGULAR_OPERATION_InitialState_transition();
+                return; // event processing immediately stops when a transition finishes. No other behaviors for this state are checked.
             } // end of behavior for ROOT.InitialState
         } // end of behavior for ROOT
     }
     
     // Dispatches an event to the state machine. Not thread safe.
-    dispatchEvent(/** @type {Ex10.EventId} */ eventId)
+    dispatchEvent(/** @type {Ex06.EventId} */ eventId)
     {
         let behaviorFunc = this.#currentEventHandlers[eventId];
         
@@ -97,7 +95,7 @@ class Ex10
     
     // This function is used when StateSmith doesn't know what the active leaf state is at
     // compile time due to sub states or when multiple states need to be exited.
-    #exitUpToStateHandler(/** @type {Ex10.Func} */ desiredStateExitHandler)
+    #exitUpToStateHandler(/** @type {Ex06.Func} */ desiredStateExitHandler)
     {
         while (this.#currentStateExitHandler != desiredStateExitHandler)
         {
@@ -123,6 +121,168 @@ class Ex10
     
     
     ////////////////////////////////////////////////////////////////////////////////
+    // event handlers for state ERROR
+    ////////////////////////////////////////////////////////////////////////////////
+    
+    #ERROR_enter()
+    {
+        // setup trigger/event handlers
+        this.#currentStateExitHandler = this.#ERROR_exit;
+        this.#currentEventHandlers[Ex06.EventId.DIM] = this.#ERROR_dim;
+        this.#currentEventHandlers[Ex06.EventId.INCREASE] = this.#ERROR_increase;
+        
+        // ERROR behavior
+        // uml: enter / { trace_enter("ERROR", "44"); }
+        {
+            // Step 1: execute action `trace_enter("ERROR", "44");`
+            this.trace_enter("ERROR", "44");
+        } // end of behavior for ERROR
+    }
+    
+    #ERROR_exit()
+    {
+        // ERROR behavior
+        // uml: exit / { trace_exit("ERROR", "44"); }
+        {
+            // Step 1: execute action `trace_exit("ERROR", "44");`
+            this.trace_exit("ERROR", "44");
+        } // end of behavior for ERROR
+        
+        // adjust function pointers for this state's exit
+        this.#currentStateExitHandler = this.#ROOT_exit;
+        this.#currentEventHandlers[Ex06.EventId.DIM] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[Ex06.EventId.INCREASE] = null;  // no ancestor listens to this event
+    }
+    
+    #ERROR_dim()
+    {
+        // No ancestor state handles `dim` event.
+        
+        // ERROR behavior
+        // uml: DIM, INCREASE / { trace_transition("47"); } TransitionTo(REGULAR_OPERATION)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#ERROR_exit();
+            
+            // Step 2: Transition action: `trace_transition("47");`.
+            this.trace_transition("47");
+            
+            // Step 3: Enter/move towards transition target `REGULAR_OPERATION`.
+            this.#REGULAR_OPERATION_enter();
+            
+            // Finish transition by calling pseudo state transition function.
+            this.#REGULAR_OPERATION_InitialState_transition();
+            return; // event processing immediately stops when a transition finishes. No other behaviors for this state are checked.
+        } // end of behavior for ERROR
+    }
+    
+    #ERROR_increase()
+    {
+        // No ancestor state handles `increase` event.
+        
+        // ERROR behavior
+        // uml: DIM, INCREASE / { trace_transition("47"); } TransitionTo(REGULAR_OPERATION)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#ERROR_exit();
+            
+            // Step 2: Transition action: `trace_transition("47");`.
+            this.trace_transition("47");
+            
+            // Step 3: Enter/move towards transition target `REGULAR_OPERATION`.
+            this.#REGULAR_OPERATION_enter();
+            
+            // Finish transition by calling pseudo state transition function.
+            this.#REGULAR_OPERATION_InitialState_transition();
+            return; // event processing immediately stops when a transition finishes. No other behaviors for this state are checked.
+        } // end of behavior for ERROR
+    }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    // event handlers for state REGULAR_OPERATION
+    ////////////////////////////////////////////////////////////////////////////////
+    
+    #REGULAR_OPERATION_enter()
+    {
+        // setup trigger/event handlers
+        this.#currentStateExitHandler = this.#REGULAR_OPERATION_exit;
+        this.#currentEventHandlers[Ex06.EventId.ERR] = this.#REGULAR_OPERATION_err;
+        
+        // REGULAR_OPERATION behavior
+        // uml: enter / { trace_enter("REGULAR_OPERATION", "21"); }
+        {
+            // Step 1: execute action `trace_enter("REGULAR_OPERATION", "21");`
+            this.trace_enter("REGULAR_OPERATION", "21");
+        } // end of behavior for REGULAR_OPERATION
+    }
+    
+    #REGULAR_OPERATION_exit()
+    {
+        // REGULAR_OPERATION behavior
+        // uml: exit / { trace_exit("REGULAR_OPERATION", "21"); }
+        {
+            // Step 1: execute action `trace_exit("REGULAR_OPERATION", "21");`
+            this.trace_exit("REGULAR_OPERATION", "21");
+        } // end of behavior for REGULAR_OPERATION
+        
+        // REGULAR_OPERATION behavior
+        // uml: exit / { trace_action("light_off();", "22", "exit / { light_off(); }");light_off(); }
+        {
+            // Step 1: execute action `trace_action("light_off();", "22", "exit / { light_off(); }");light_off();`
+            this.trace_action("light_off();", "22", "exit / { light_off(); }");this.light_off();
+        } // end of behavior for REGULAR_OPERATION
+        
+        // adjust function pointers for this state's exit
+        this.#currentStateExitHandler = this.#ROOT_exit;
+        this.#currentEventHandlers[Ex06.EventId.ERR] = null;  // no ancestor listens to this event
+    }
+    
+    #REGULAR_OPERATION_err()
+    {
+        // No ancestor state handles `err` event.
+        
+        // REGULAR_OPERATION behavior
+        // uml: ERR / { trace_transition("46"); } TransitionTo(ERROR)
+        {
+            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            this.#exitUpToStateHandler(this.#ROOT_exit);
+            
+            // Step 2: Transition action: `trace_transition("46");`.
+            this.trace_transition("46");
+            
+            // Step 3: Enter/move towards transition target `ERROR`.
+            this.#ERROR_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            this.stateId = Ex06.StateId.ERROR;
+            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
+            return;
+        } // end of behavior for REGULAR_OPERATION
+    }
+    
+    #REGULAR_OPERATION_InitialState_transition()
+    {
+        // REGULAR_OPERATION.InitialState behavior
+        // uml: / { trace_transition("14"); } TransitionTo(OFF)
+        {
+            // Step 1: Exit states until we reach `REGULAR_OPERATION` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
+            
+            // Step 2: Transition action: `trace_transition("14");`.
+            this.trace_transition("14");
+            
+            // Step 3: Enter/move towards transition target `OFF`.
+            this.#OFF_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            this.stateId = Ex06.StateId.OFF;
+            this.#ancestorEventHandler = null;
+            return;
+        } // end of behavior for REGULAR_OPERATION.InitialState
+    }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////
     // event handlers for state OFF
     ////////////////////////////////////////////////////////////////////////////////
     
@@ -130,7 +290,7 @@ class Ex10
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#OFF_exit;
-        this.#currentEventHandlers[Ex10.EventId.INCREASE] = this.#OFF_increase;
+        this.#currentEventHandlers[Ex06.EventId.INCREASE] = this.#OFF_increase;
         
         // OFF behavior
         // uml: enter / { trace_enter("OFF", "16"); }
@@ -157,8 +317,8 @@ class Ex10
         } // end of behavior for OFF
         
         // adjust function pointers for this state's exit
-        this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[Ex10.EventId.INCREASE] = null;  // no ancestor listens to this event
+        this.#currentStateExitHandler = this.#REGULAR_OPERATION_exit;
+        this.#currentEventHandlers[Ex06.EventId.INCREASE] = null;  // no ancestor listens to this event
     }
     
     #OFF_increase()
@@ -168,142 +328,20 @@ class Ex10
         // OFF behavior
         // uml: INCREASE / { trace_transition("37"); } TransitionTo(ON1)
         {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
+            // Step 1: Exit states until we reach `REGULAR_OPERATION` state (Least Common Ancestor for transition).
             this.#OFF_exit();
             
             // Step 2: Transition action: `trace_transition("37");`.
             this.trace_transition("37");
             
             // Step 3: Enter/move towards transition target `ON1`.
-            this.#ON_GROUP_enter();
             this.#ON1_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex10.StateId.ON1;
+            this.stateId = Ex06.StateId.ON1;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
         } // end of behavior for OFF
-    }
-    
-    
-    ////////////////////////////////////////////////////////////////////////////////
-    // event handlers for state ON_GROUP
-    ////////////////////////////////////////////////////////////////////////////////
-    
-    #ON_GROUP_enter()
-    {
-        // setup trigger/event handlers
-        this.#currentStateExitHandler = this.#ON_GROUP_exit;
-        this.#currentEventHandlers[Ex10.EventId.OFF] = this.#ON_GROUP_off;
-        
-        // ON_GROUP behavior
-        // uml: enter / { trace_enter("ON_GROUP", "21"); }
-        {
-            // Step 1: execute action `trace_enter("ON_GROUP", "21");`
-            this.trace_enter("ON_GROUP", "21");
-        } // end of behavior for ON_GROUP
-    }
-    
-    #ON_GROUP_exit()
-    {
-        // ON_GROUP behavior
-        // uml: exit / { trace_exit("ON_GROUP", "21"); }
-        {
-            // Step 1: execute action `trace_exit("ON_GROUP", "21");`
-            this.trace_exit("ON_GROUP", "21");
-        } // end of behavior for ON_GROUP
-        
-        // adjust function pointers for this state's exit
-        this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[Ex10.EventId.OFF] = null;  // no ancestor listens to this event
-    }
-    
-    #ON_GROUP_off()
-    {
-        // No ancestor state handles `off` event.
-        
-        // ON_GROUP behavior
-        // uml: OFF / { trace_transition("18"); } TransitionTo(OFF)
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#exitUpToStateHandler(this.#ROOT_exit);
-            
-            // Step 2: Transition action: `trace_transition("18");`.
-            this.trace_transition("18");
-            
-            // Step 3: Enter/move towards transition target `OFF`.
-            this.#OFF_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex10.StateId.OFF;
-            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-            return;
-        } // end of behavior for ON_GROUP
-    }
-    
-    
-    ////////////////////////////////////////////////////////////////////////////////
-    // event handlers for state ON_HOT
-    ////////////////////////////////////////////////////////////////////////////////
-    
-    #ON_HOT_enter()
-    {
-        // setup trigger/event handlers
-        this.#currentStateExitHandler = this.#ON_HOT_exit;
-        this.#currentEventHandlers[Ex10.EventId.DO] = this.#ON_HOT_do;
-        
-        // ON_HOT behavior
-        // uml: enter / { trace_enter("ON_HOT", "19"); }
-        {
-            // Step 1: execute action `trace_enter("ON_HOT", "19");`
-            this.trace_enter("ON_HOT", "19");
-        } // end of behavior for ON_HOT
-        
-        // ON_HOT behavior
-        // uml: enter / { trace_action("t1Restart();\\nlight_red();", "20", "enter / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red(); }
-        {
-            // Step 1: execute action `trace_action("t1Restart();\\nlight_red();", "20", "enter / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red();`
-            this.trace_action("t1Restart();\\nlight_red();", "20", "enter / { t1Restart();\\nlight_red(); }");this.vars.t1_start_ms = Date.now();
-            this.light_red();
-        } // end of behavior for ON_HOT
-    }
-    
-    #ON_HOT_exit()
-    {
-        // ON_HOT behavior
-        // uml: exit / { trace_exit("ON_HOT", "19"); }
-        {
-            // Step 1: execute action `trace_exit("ON_HOT", "19");`
-            this.trace_exit("ON_HOT", "19");
-        } // end of behavior for ON_HOT
-        
-        // adjust function pointers for this state's exit
-        this.#currentStateExitHandler = this.#ON_GROUP_exit;
-        this.#currentEventHandlers[Ex10.EventId.DO] = null;  // no ancestor listens to this event
-    }
-    
-    #ON_HOT_do()
-    {
-        // No ancestor state handles `do` event.
-        
-        // ON_HOT behavior
-        // uml: do [t1After(2.1s)] / { trace_transition("40"); } TransitionTo(ON2)
-        if (Date.now() - this.vars.t1_start_ms >= 2100)
-        {
-            // Step 1: Exit states until we reach `ON_GROUP` state (Least Common Ancestor for transition).
-            this.#ON_HOT_exit();
-            
-            // Step 2: Transition action: `trace_transition("40");`.
-            this.trace_transition("40");
-            
-            // Step 3: Enter/move towards transition target `ON2`.
-            this.#ON2_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex10.StateId.ON2;
-            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-            return;
-        } // end of behavior for ON_HOT
     }
     
     
@@ -315,8 +353,8 @@ class Ex10
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#ON1_exit;
-        this.#currentEventHandlers[Ex10.EventId.DIM] = this.#ON1_dim;
-        this.#currentEventHandlers[Ex10.EventId.INCREASE] = this.#ON1_increase;
+        this.#currentEventHandlers[Ex06.EventId.DIM] = this.#ON1_dim;
+        this.#currentEventHandlers[Ex06.EventId.INCREASE] = this.#ON1_increase;
         
         // ON1 behavior
         // uml: enter / { trace_enter("ON1", "23"); }
@@ -343,9 +381,9 @@ class Ex10
         } // end of behavior for ON1
         
         // adjust function pointers for this state's exit
-        this.#currentStateExitHandler = this.#ON_GROUP_exit;
-        this.#currentEventHandlers[Ex10.EventId.DIM] = null;  // no ancestor listens to this event
-        this.#currentEventHandlers[Ex10.EventId.INCREASE] = null;  // no ancestor listens to this event
+        this.#currentStateExitHandler = this.#REGULAR_OPERATION_exit;
+        this.#currentEventHandlers[Ex06.EventId.DIM] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[Ex06.EventId.INCREASE] = null;  // no ancestor listens to this event
     }
     
     #ON1_dim()
@@ -355,8 +393,8 @@ class Ex10
         // ON1 behavior
         // uml: DIM / { trace_transition("32"); } TransitionTo(OFF)
         {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#exitUpToStateHandler(this.#ROOT_exit);
+            // Step 1: Exit states until we reach `REGULAR_OPERATION` state (Least Common Ancestor for transition).
+            this.#ON1_exit();
             
             // Step 2: Transition action: `trace_transition("32");`.
             this.trace_transition("32");
@@ -365,7 +403,7 @@ class Ex10
             this.#OFF_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex10.StateId.OFF;
+            this.stateId = Ex06.StateId.OFF;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
         } // end of behavior for ON1
@@ -378,7 +416,7 @@ class Ex10
         // ON1 behavior
         // uml: INCREASE / { trace_transition("28"); } TransitionTo(ON2)
         {
-            // Step 1: Exit states until we reach `ON_GROUP` state (Least Common Ancestor for transition).
+            // Step 1: Exit states until we reach `REGULAR_OPERATION` state (Least Common Ancestor for transition).
             this.#ON1_exit();
             
             // Step 2: Transition action: `trace_transition("28");`.
@@ -388,7 +426,7 @@ class Ex10
             this.#ON2_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex10.StateId.ON2;
+            this.stateId = Ex06.StateId.ON2;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
         } // end of behavior for ON1
@@ -403,8 +441,7 @@ class Ex10
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#ON2_exit;
-        this.#currentEventHandlers[Ex10.EventId.DIM] = this.#ON2_dim;
-        this.#currentEventHandlers[Ex10.EventId.INCREASE] = this.#ON2_increase;
+        this.#currentEventHandlers[Ex06.EventId.DIM] = this.#ON2_dim;
         
         // ON2 behavior
         // uml: enter / { trace_enter("ON2", "25"); }
@@ -419,13 +456,6 @@ class Ex10
             // Step 1: execute action `trace_action("light_yellow();", "26", "enter / { light_yellow(); }");light_yellow();`
             this.trace_action("light_yellow();", "26", "enter / { light_yellow(); }");this.light_yellow();
         } // end of behavior for ON2
-        
-        // ON2 behavior
-        // uml: enter / { trace_action("count = 0;", "34", "enter / { count = 0; }");count = 0; }
-        {
-            // Step 1: execute action `trace_action("count = 0;", "34", "enter / { count = 0; }");count = 0;`
-            this.trace_action("count = 0;", "34", "enter / { count = 0; }");this.vars.count = 0;
-        } // end of behavior for ON2
     }
     
     #ON2_exit()
@@ -438,9 +468,8 @@ class Ex10
         } // end of behavior for ON2
         
         // adjust function pointers for this state's exit
-        this.#currentStateExitHandler = this.#ON_GROUP_exit;
-        this.#currentEventHandlers[Ex10.EventId.DIM] = null;  // no ancestor listens to this event
-        this.#currentEventHandlers[Ex10.EventId.INCREASE] = null;  // no ancestor listens to this event
+        this.#currentStateExitHandler = this.#REGULAR_OPERATION_exit;
+        this.#currentEventHandlers[Ex06.EventId.DIM] = null;  // no ancestor listens to this event
     }
     
     #ON2_dim()
@@ -450,7 +479,7 @@ class Ex10
         // ON2 behavior
         // uml: DIM / { trace_transition("27"); } TransitionTo(ON1)
         {
-            // Step 1: Exit states until we reach `ON_GROUP` state (Least Common Ancestor for transition).
+            // Step 1: Exit states until we reach `REGULAR_OPERATION` state (Least Common Ancestor for transition).
             this.#ON2_exit();
             
             // Step 2: Transition action: `trace_transition("27");`.
@@ -460,70 +489,35 @@ class Ex10
             this.#ON1_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex10.StateId.ON1;
-            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-            return;
-        } // end of behavior for ON2
-    }
-    
-    #ON2_increase()
-    {
-        // No ancestor state handles `increase` event.
-        
-        // ON2 behavior
-        // uml: 1. INCREASE / { trace_action("count++;", "36", "1. INCREASE / { count++; }");count++; }
-        {
-            // Step 1: execute action `trace_action("count++;", "36", "1. INCREASE / { count++; }");count++;`
-            this.trace_action("count++;", "36", "1. INCREASE / { count++; }");this.vars.count++;
-            
-            // Step 2: determine if ancestor gets to handle event next.
-            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-        } // end of behavior for ON2
-        
-        // ON2 behavior
-        // uml: 2. INCREASE [count >= 3] / { trace_transition("31"); } TransitionTo(ON_HOT)
-        if (this.vars.count >= 3)
-        {
-            // Step 1: Exit states until we reach `ON_GROUP` state (Least Common Ancestor for transition).
-            this.#ON2_exit();
-            
-            // Step 2: Transition action: `trace_transition("31");`.
-            this.trace_transition("31");
-            
-            // Step 3: Enter/move towards transition target `ON_HOT`.
-            this.#ON_HOT_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex10.StateId.ON_HOT;
+            this.stateId = Ex06.StateId.ON1;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
         } // end of behavior for ON2
     }
     
     // Thread safe.
-    stateIdToString(/** @type {Ex10.StateId} */ id)
+    stateIdToString(/** @type {Ex06.StateId} */ id)
     {
         switch (id)
         {
-            case Ex10.StateId.ROOT: return "ROOT";
-            case Ex10.StateId.OFF: return "OFF";
-            case Ex10.StateId.ON_GROUP: return "ON_GROUP";
-            case Ex10.StateId.ON_HOT: return "ON_HOT";
-            case Ex10.StateId.ON1: return "ON1";
-            case Ex10.StateId.ON2: return "ON2";
+            case Ex06.StateId.ROOT: return "ROOT";
+            case Ex06.StateId.ERROR: return "ERROR";
+            case Ex06.StateId.REGULAR_OPERATION: return "REGULAR_OPERATION";
+            case Ex06.StateId.OFF: return "OFF";
+            case Ex06.StateId.ON1: return "ON1";
+            case Ex06.StateId.ON2: return "ON2";
             default: return "?";
         }
     }
     
     // Thread safe.
-    eventIdToString(/** @type {Ex10.EventId} */ id)
+    eventIdToString(/** @type {Ex06.EventId} */ id)
     {
         switch (id)
         {
-            case Ex10.EventId.DIM: return "DIM";
-            case Ex10.EventId.DO: return "DO";
-            case Ex10.EventId.INCREASE: return "INCREASE";
-            case Ex10.EventId.OFF: return "OFF";
+            case Ex06.EventId.DIM: return "DIM";
+            case Ex06.EventId.ERR: return "ERR";
+            case Ex06.EventId.INCREASE: return "INCREASE";
             default: return "?";
         }
     }
