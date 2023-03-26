@@ -2,6 +2,15 @@
   font-weight: 400;
 }
 
+code {
+  white-space: nowrap;
+}
+
+code a {
+  color: #d63384;
+  font-weight: bold;
+}
+
 div.Ex object.StateMachine {
   scale: 1.2;
 }
