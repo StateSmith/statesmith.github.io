@@ -10,10 +10,10 @@
 // Hey there! This isn't the best place to learn.
 //
 // The generated state machines have been modded/instrumented so that we can trace
-// the actions can taken and update the svg diagrams dynamically.
-//
-// Best to learn by checking out the StateSmith youtube channel or examples repo
-// https://github.com/StateSmith/StateSmith-examples
+// the state machine behavior and update the svg diagrams dynamically.
+// 
+// Best to learn by checking out the StateSmith wiki or example repos
+// https://github.com/StateSmith/
 //
 // However, if you would like to help improve the content here, hit us up github or discord!
 
