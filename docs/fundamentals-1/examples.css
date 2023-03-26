@@ -11,11 +11,21 @@ div.sm-vars code {
   padding: 2px;
 }
 
-div.sm-button-container {
+div.SS_TEMPLATE_CONTENT_LEFT {
   margin-bottom: 45px;
 }
 
-div.Ex10 div.sm-button-container {
+div.Ex09 div.SS_TEMPLATE_CONTENT_LEFT,
+div.Ex08 div.SS_TEMPLATE_CONTENT_LEFT,
+div.Ex05 div.SS_TEMPLATE_CONTENT_LEFT,
+div.Ex04 div.SS_TEMPLATE_CONTENT_LEFT,
+div.Ex03 div.SS_TEMPLATE_CONTENT_LEFT
+{
+  margin-bottom: 60px;
+}
+
+div.Ex10 div.SS_TEMPLATE_CONTENT_LEFT,
+div.Ex06 div.SS_TEMPLATE_CONTENT_LEFT {
   margin-bottom: 80px;
 }
 
