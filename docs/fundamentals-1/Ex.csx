@@ -1,5 +1,5 @@
 #!/usr/bin/env dotnet-script
-#r "nuget: StateSmith, 0.8.10-alpha"
+#r "nuget: StateSmith, 0.8.11-alpha"
 
 // This is a C# script file. Very useful for running StateSmith.
 // https://github.com/StateSmith/StateSmith/wiki/Using-c%23-script-files-(.CSX)-instead-of-solutions-and-projects
@@ -28,13 +28,6 @@ static void GenSimple()
         runner.Run();
     }
 }
-
-// static void GenEx10()
-// {
-//     SmRunner runner = new(diagramPath: "Ex10.drawio.svg", new Ex10Glue(), transpilerId: TranspilerId.JavaScript);
-//     AddTransformers(runner);
-//     runner.Run();
-// }
 
 static void AddTransformers(SmRunner runner)
 {
