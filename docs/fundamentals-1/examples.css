@@ -6,6 +6,10 @@ code {
   white-space: nowrap;
 }
 
+div.bg-dark.text-secondary {
+  color: #ccc !important;
+}
+
 .ss-standout {
   color: #198754;
 }
