@@ -19,7 +19,7 @@ GenSimple();
 
 static void GenSimple()
 {
-    var list = new List<string>{"Ex01", "Ex01Polled", "Ex02", "Ex03", "Ex04", "Ex05", "Ex06", "Ex08", "Ex09", "Ex10"};
+    var list = new List<string>{"Ex01", "Ex01Polled", "Ex02", "Ex03", "Ex04", "Ex05", "Ex06", "Ex07", "Ex08", "Ex09", "Ex10"};
 
     foreach (var exName in list)
     {

@@ -57,6 +57,7 @@ I would really appreciate making the content work better on mobile devices.
   <script src="Ex04.js"></script>
   <script src="Ex05.js"></script>
   <script src="Ex06.js"></script>
+  <script src="Ex07.js"></script>
   <script src="Ex08.js"></script>
   <script src="Ex09.js"></script>
   <script src="Ex10.js"></script>
@@ -385,6 +386,47 @@ I would really appreciate making the content work better on mobile devices.
 
 
 
+        <!-- Ex07 -->
+        <div class="b-example-divider"></div>
+
+        <div class="Ex07 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+          <div class="SS_TEMPLATE_CONTENT">
+    
+            <div class="SS_TEMPLATE_CONTENT_LEFT">
+              <h1 class="SS_TEMPLATE_CONTENT_HEADER">Choice Pseudo States</h1>
+              <p class="lead">Decisions, Decisions, Decisions.</p>
+              <p>You can get fancier than what is shown here (more choices, chaining choice pseudo states), but this shows the main functionality well.</p>
+              <p>It's a bit unorthodox to have the initial state in the middle of a state, but it helps the design fit a phone screen.</p>
+    
+              <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+                <input class="form-check-input" type="checkbox" id="Ex07-auto-clear-highlights" checked="">
+                <label class="form-check-label" for="Ex07-auto-clear-highlights"
+                  title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+                  highlights.</label>
+              </div>
+    
+              <div class="sm-vars mb-2 d-grid gap-2 d-flex justify-content-center justify-content-lg-start">
+                <div>State machine variables <code>count: <span class="sm-var-count-value">0</span></code></div>
+              </div>
+
+              <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+                <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+                <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+                  title="Press to send INCREASE event to state machine.">INC</button>
+                <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+                  title="Press to send DIM event to state machine.">DIM</button>
+              </div>   
+            </div>
+    
+            <div class="SS_TEMPLATE_CONTENT_RIGHT">
+              <object data="Ex07.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+            </div>
+    
+          </div>
+        </div>
+
+
+
     <!-- DARK consider contributing -->
     <div class="b-example-divider"></div>
 
@@ -399,7 +441,7 @@ I would really appreciate making the content work better on mobile devices.
               href="https://github.com/StateSmith/StateSmith/wiki/Contributing">contributing</a> (especially if you have
             web skills).</p>
           <p class="fs-5">Thanks! - Adam</p>
-          <p class="fs-5">Scroll on!</p>
+          <p class="fs-5">Scroll on...</p>
         </div>
       </div>
     </div>
@@ -649,7 +691,6 @@ I would really appreciate making the content work better on mobile devices.
           <p>
             Things like
               <code>Entry and Exit points</code>,
-              <code>Choice Pseudo States</code>,
               <code>History States</code>.
           </p>
           <p>You can find more info <a href="https://github.com/StateSmith/StateSmith/blob/main/docs/diagram-features.md">here</a>.</p>

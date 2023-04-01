@@ -131,6 +131,7 @@ window.onload = () => {
     new ExampleConfig(Ex04).setup();
     new ExampleConfig(Ex05).setup();
     new ExampleConfig(Ex06).setup();
+    new ExampleConfig(Ex07).setup();
     new ExampleConfig(Ex08).setup();
     new ExampleConfig(Ex09).setup();
     new ExampleConfig(Ex10).setup();
