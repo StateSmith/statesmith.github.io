@@ -1,5 +1,5 @@
 #!/usr/bin/env dotnet-script
-#r "nuget: StateSmith, 0.8.11-alpha"
+#r "nuget: StateSmith, 0.8.13-alpha"
 
 // This is a C# script file. Very useful for running StateSmith.
 // https://github.com/StateSmith/StateSmith/wiki/Using-c%23-script-files-(.CSX)-instead-of-solutions-and-projects
@@ -19,7 +19,7 @@ GenSimple();
 
 static void GenSimple()
 {
-    var list = new List<string>{"Ex01", "Ex01Polled", "Ex02", "Ex03", "Ex04", "Ex05", "Ex06", "Ex07", "Ex08", "Ex09", "Ex10"};
+    var list = new List<string>{"Ex11",     "Ex01", "Ex01Polled", "Ex02", "Ex03", "Ex04", "Ex05", "Ex06", "Ex07", "Ex08", "Ex09", "Ex10", };
 
     foreach (var exName in list)
     {
@@ -39,7 +39,7 @@ static void AddTransformers(SmRunner runner)
 // needs to happen before behavior re-ordering!
 static void FixUpNonTransitionBehaviorIds(StateMachine sm)
 {
-    sm.VisitTypeRecursively<NamedVertex>(v => {
+    sm.VisitTypeRecursively<Vertex>(v => {
         var list = v.DiagramSubIds.ToList();
         foreach (var b in v.Behaviors)
         {

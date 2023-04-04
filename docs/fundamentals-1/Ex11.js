@@ -2,7 +2,7 @@
 // Algorithm: Balanced1. See https://github.com/StateSmith/StateSmith/wiki/Algorithms
 
 // Generated state machine
-class Ex07 extends Ex10Base
+class Ex11 extends Ex10Base
 {
     static EventId = 
     {
@@ -27,6 +27,13 @@ class Ex07 extends Ex10Base
     static StateIdCount = 5;
     static { Object.freeze(this.StateIdCount); }
     
+    static ON_HistoryId = 
+    {
+        ON1 : 0, // default transition
+        ON2 : 1,
+    }
+    static { Object.freeze(this.ON_HistoryId); }
+    
     // Used internally by state machine. Feel free to inspect, but don't modify.
     stateId;
     
@@ -34,13 +41,14 @@ class Ex07 extends Ex10Base
     #ancestorEventHandler;
     
     // Used internally by state machine. Don't modify.
-    #currentEventHandlers = Array(Ex07.EventIdCount).fill(undefined);
+    #currentEventHandlers = Array(Ex11.EventIdCount).fill(undefined);
     
     // Used internally by state machine. Don't modify.
     #currentStateExitHandler;
     
     // Variables. Can be used for inputs, outputs, user variables...
     vars = {
+        ON_history: undefined,
         t1_start_ms: 0,
         count: 0,
         switch_is_on: false,
@@ -72,7 +80,7 @@ class Ex07 extends Ex10Base
                 this.#OFF_enter();
                 
                 // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-                this.stateId = Ex07.StateId.OFF;
+                this.stateId = Ex11.StateId.OFF;
                 // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
                 return;
             } // end of behavior for ROOT.InitialState
@@ -126,7 +134,7 @@ class Ex07 extends Ex10Base
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#OFF_exit;
-        this.#currentEventHandlers[Ex07.EventId.INCREASE] = this.#OFF_increase;
+        this.#currentEventHandlers[Ex11.EventId.INCREASE] = this.#OFF_increase;
         
         // OFF behavior
         // uml: enter / { trace_enter("OFF", "16"); }
@@ -154,7 +162,7 @@ class Ex07 extends Ex10Base
         
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[Ex07.EventId.INCREASE] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[Ex11.EventId.INCREASE] = null;  // no ancestor listens to this event
     }
     
     #OFF_increase()
@@ -174,50 +182,50 @@ class Ex07 extends Ex10Base
             this.#ON_enter();
             
             // ON.InitialState behavior
-            // uml: / { trace_transition("55"); } TransitionTo(ON.ChoicePoint())
+            // uml: / { trace_transition("66"); } TransitionTo(ON.History)
             {
                 // Step 1: Exit states until we reach `ON` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
                 
-                // Step 2: Transition action: `trace_transition("55");`.
-                this.trace_transition("55");
+                // Step 2: Transition action: `trace_transition("66");`.
+                this.trace_transition("66");
                 
-                // Step 3: Enter/move towards transition target `ON.ChoicePoint()`.
-                // ON.ChoicePoint() is a pseudo state and cannot have an `enter` trigger.
+                // Step 3: Enter/move towards transition target `ON.History`.
+                // ON.History is a pseudo state and cannot have an `enter` trigger.
                 
-                // ON.ChoicePoint() behavior
-                // uml: [count % 2 == 0] / { trace_transition("57"); } TransitionTo(ON1)
-                if (this.vars.count % 2 == 0)
+                // ON.History behavior
+                // uml: [$gil(this.vars.ON_history == ON_HistoryId.ON2)] / { trace_transition(""); } TransitionTo(ON2)
+                if (this.vars.ON_history == Ex11.ON_HistoryId.ON2)
                 {
                     // Step 1: Exit states until we reach `ON` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
                     
-                    // Step 2: Transition action: `trace_transition("57");`.
-                    this.trace_transition("57");
-                    
-                    // Step 3: Enter/move towards transition target `ON1`.
-                    this.#ON1_enter();
-                    
-                    // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-                    this.stateId = Ex07.StateId.ON1;
-                    // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-                    return;
-                } // end of behavior for ON.ChoicePoint()
-                
-                // ON.ChoicePoint() behavior
-                // uml: else / { trace_transition("56"); } TransitionTo(ON2)
-                {
-                    // Step 1: Exit states until we reach `ON` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
-                    
-                    // Step 2: Transition action: `trace_transition("56");`.
-                    this.trace_transition("56");
+                    // Step 2: Transition action: `trace_transition("");`.
+                    this.trace_transition("");
                     
                     // Step 3: Enter/move towards transition target `ON2`.
                     this.#ON2_enter();
                     
                     // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-                    this.stateId = Ex07.StateId.ON2;
+                    this.stateId = Ex11.StateId.ON2;
                     // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
                     return;
-                } // end of behavior for ON.ChoicePoint()
+                } // end of behavior for ON.History
+                
+                // ON.History behavior
+                // uml: else / { trace_transition("67"); } TransitionTo(ON1)
+                {
+                    // Step 1: Exit states until we reach `ON` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
+                    
+                    // Step 2: Transition action: `trace_transition("67");`.
+                    this.trace_transition("67");
+                    
+                    // Step 3: Enter/move towards transition target `ON1`.
+                    this.#ON1_enter();
+                    
+                    // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+                    this.stateId = Ex11.StateId.ON1;
+                    // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
+                    return;
+                } // end of behavior for ON.History
             } // end of behavior for ON.InitialState
         } // end of behavior for OFF
     }
@@ -231,7 +239,7 @@ class Ex07 extends Ex10Base
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#ON_exit;
-        this.#currentEventHandlers[Ex07.EventId.DIM] = this.#ON_dim;
+        this.#currentEventHandlers[Ex11.EventId.DIM] = this.#ON_dim;
         
         // ON behavior
         // uml: enter / { trace_enter("ON", "52"); }
@@ -250,16 +258,9 @@ class Ex07 extends Ex10Base
             this.trace_exit("ON", "52");
         } // end of behavior for ON
         
-        // ON behavior
-        // uml: exit / { trace_action("count++;", "53", "exit / { count++; }");count++; }
-        {
-            // Step 1: execute action `trace_action("count++;", "53", "exit / { count++; }");count++;`
-            this.trace_action("count++;", "53", "exit / { count++; }");this.vars.count++;
-        } // end of behavior for ON
-        
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[Ex07.EventId.DIM] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[Ex11.EventId.DIM] = null;  // no ancestor listens to this event
     }
     
     #ON_dim()
@@ -279,7 +280,7 @@ class Ex07 extends Ex10Base
             this.#OFF_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = Ex07.StateId.OFF;
+            this.stateId = Ex11.StateId.OFF;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
         } // end of behavior for ON
@@ -294,6 +295,7 @@ class Ex07 extends Ex10Base
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#ON1_exit;
+        this.#currentEventHandlers[Ex11.EventId.INCREASE] = this.#ON1_increase;
         
         // ON1 behavior
         // uml: enter / { trace_enter("ON1", "23"); }
@@ -308,6 +310,13 @@ class Ex07 extends Ex10Base
             // Step 1: execute action `trace_action("light_blue();", "24", "enter / { light_blue(); }");light_blue();`
             this.trace_action("light_blue();", "24", "enter / { light_blue(); }");this.light_blue();
         } // end of behavior for ON1
+        
+        // ON1 behavior
+        // uml: enter / { trace_action("$gil(this.vars.ON_history = ON_HistoryId.ON1;)", "", "enter / { $gil(this.vars.ON_history = ON_HistoryId.ON1;) }");$gil(this.vars.ON_history = ON_HistoryId.ON1;) }
+        {
+            // Step 1: execute action `trace_action("$gil(this.vars.ON_history = ON_HistoryId.ON1;)", "", "enter / { $gil(this.vars.ON_history = ON_HistoryId.ON1;) }");$gil(this.vars.ON_history = ON_HistoryId.ON1;)`
+            this.trace_action("$gil(this.vars.ON_history = ON_HistoryId.ON1;)", "", "enter / { $gil(this.vars.ON_history = ON_HistoryId.ON1;) }");this.vars.ON_history = Ex11.ON_HistoryId.ON1;
+        } // end of behavior for ON1
     }
     
     #ON1_exit()
@@ -321,6 +330,30 @@ class Ex07 extends Ex10Base
         
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ON_exit;
+        this.#currentEventHandlers[Ex11.EventId.INCREASE] = null;  // no ancestor listens to this event
+    }
+    
+    #ON1_increase()
+    {
+        // No ancestor state handles `increase` event.
+        
+        // ON1 behavior
+        // uml: INCREASE / { trace_transition("64"); } TransitionTo(ON2)
+        {
+            // Step 1: Exit states until we reach `ON` state (Least Common Ancestor for transition).
+            this.#ON1_exit();
+            
+            // Step 2: Transition action: `trace_transition("64");`.
+            this.trace_transition("64");
+            
+            // Step 3: Enter/move towards transition target `ON2`.
+            this.#ON2_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            this.stateId = Ex11.StateId.ON2;
+            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
+            return;
+        } // end of behavior for ON1
     }
     
     
@@ -332,6 +365,7 @@ class Ex07 extends Ex10Base
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#ON2_exit;
+        this.#currentEventHandlers[Ex11.EventId.INCREASE] = this.#ON2_increase;
         
         // ON2 behavior
         // uml: enter / { trace_enter("ON2", "49"); }
@@ -346,6 +380,13 @@ class Ex07 extends Ex10Base
             // Step 1: execute action `trace_action("light_red();", "50", "enter / { light_red(); }");light_red();`
             this.trace_action("light_red();", "50", "enter / { light_red(); }");this.light_red();
         } // end of behavior for ON2
+        
+        // ON2 behavior
+        // uml: enter / { trace_action("$gil(this.vars.ON_history = ON_HistoryId.ON2;)", "", "enter / { $gil(this.vars.ON_history = ON_HistoryId.ON2;) }");$gil(this.vars.ON_history = ON_HistoryId.ON2;) }
+        {
+            // Step 1: execute action `trace_action("$gil(this.vars.ON_history = ON_HistoryId.ON2;)", "", "enter / { $gil(this.vars.ON_history = ON_HistoryId.ON2;) }");$gil(this.vars.ON_history = ON_HistoryId.ON2;)`
+            this.trace_action("$gil(this.vars.ON_history = ON_HistoryId.ON2;)", "", "enter / { $gil(this.vars.ON_history = ON_HistoryId.ON2;) }");this.vars.ON_history = Ex11.ON_HistoryId.ON2;
+        } // end of behavior for ON2
     }
     
     #ON2_exit()
@@ -359,6 +400,30 @@ class Ex07 extends Ex10Base
         
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ON_exit;
+        this.#currentEventHandlers[Ex11.EventId.INCREASE] = null;  // no ancestor listens to this event
+    }
+    
+    #ON2_increase()
+    {
+        // No ancestor state handles `increase` event.
+        
+        // ON2 behavior
+        // uml: INCREASE / { trace_transition("65"); } TransitionTo(ON1)
+        {
+            // Step 1: Exit states until we reach `ON` state (Least Common Ancestor for transition).
+            this.#ON2_exit();
+            
+            // Step 2: Transition action: `trace_transition("65");`.
+            this.trace_transition("65");
+            
+            // Step 3: Enter/move towards transition target `ON1`.
+            this.#ON1_enter();
+            
+            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+            this.stateId = Ex11.StateId.ON1;
+            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
+            return;
+        } // end of behavior for ON2
     }
     
     // Thread safe.
@@ -366,11 +431,11 @@ class Ex07 extends Ex10Base
     {
         switch (id)
         {
-            case Ex07.StateId.ROOT: return "ROOT";
-            case Ex07.StateId.OFF: return "OFF";
-            case Ex07.StateId.ON: return "ON";
-            case Ex07.StateId.ON1: return "ON1";
-            case Ex07.StateId.ON2: return "ON2";
+            case Ex11.StateId.ROOT: return "ROOT";
+            case Ex11.StateId.OFF: return "OFF";
+            case Ex11.StateId.ON: return "ON";
+            case Ex11.StateId.ON1: return "ON1";
+            case Ex11.StateId.ON2: return "ON2";
             default: return "?";
         }
     }
@@ -380,8 +445,8 @@ class Ex07 extends Ex10Base
     {
         switch (id)
         {
-            case Ex07.EventId.DIM: return "DIM";
-            case Ex07.EventId.INCREASE: return "INCREASE";
+            case Ex11.EventId.DIM: return "DIM";
+            case Ex11.EventId.INCREASE: return "INCREASE";
             default: return "?";
         }
     }

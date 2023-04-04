@@ -58,6 +58,9 @@ class ExBase {
     trace_action(actionCode, behaviorId, vertexId) {
         console.log(`Action: ${actionCode}, ${behaviorId}, ${vertexId}`);
 
+        if (behaviorId == "") // happens for history behaviors
+            return;
+
         let containingObj = this.getSvgElementFromDiagramId(behaviorId);
 
         /** @type {NodeListOf<HTMLDivElement>} */
@@ -84,6 +87,9 @@ class ExBase {
      */
     trace_transition(behaviorId) {
         console.log(`Transition: ${behaviorId}`);
+
+        if (behaviorId == "")
+            return; // happens for history behaviors
 
         this.trace_action("", behaviorId, "");
         this.highlightPaths(this.tempHighlightMap, behaviorId, true);
