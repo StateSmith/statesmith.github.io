@@ -739,18 +739,29 @@ I would really appreciate making the content work better on mobile devices.
       <div class="SS_TEMPLATE_CONTENT">
 
         <div class="SS_TEMPLATE_CONTENT_LEFT">
-          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Put It All Together!</h1>
-          <p>Try using the buttons below to send events to the Ex12 state machine.</p>
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Consuming Events</h1>
+          <p class="lead">A child state can consume an event. Behaviors can have multiple triggers.</p>
 
-          <div class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+          <p>This example is very similar to Ex10, but this time we want to stay in the <code>ON_HOT</code> state for 4.2 seconds no matter what. Sending events <code>OFF</code> or <code>DIM</code>
+            to the <code>ON_HOT</code> state should do nothing.
+          </p>
+
+          <p>We simply make <code>ON_HOT</code> consume the <code>OFF</code> and <code>DIM</code> events so that its parent <code>ON_GROUP</code> doesn't get a chance to see the events.
+          </p>
+
+          <p>If you had a lot of events that you wanted to consume, you should check out <a href="https://github.com/StateSmith/StateSmith/issues/161">TriggerMaps</a> so you can just
+            type <code>ALL</code> (or whatever you decide).</p>
+
+          <p>This example may feel a bit contrived, but this ability for child states to consume an event is crucial for many applications like user interfaces.
+          </p>
+
+          <p>Another fun feature of draw.io support is that you can place images anywhere and StateSmith will ignore them (the fire image).</p>
+
+          <div style="display: none!important;" class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
             <input class="form-check-input" type="checkbox" id="Ex12-auto-clear-highlights" checked="">
             <label class="form-check-label" for="Ex12-auto-clear-highlights"
               title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
               highlights.</label>
-          </div>
-
-          <div class="sm-vars mb-2 d-grid gap-2 d-flex justify-content-center justify-content-lg-start">
-            <div>State machine variables <code>count: <span class="sm-var-count-value">0</span></code></div>
           </div>
 
           <div class="SS_TEMPLATE_CONTENT_CONTROLS">

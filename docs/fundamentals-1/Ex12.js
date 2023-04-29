@@ -250,6 +250,7 @@ class Ex12 extends Ex10Base
         this.#currentStateExitHandler = this.#ON_HOT_exit;
         this.#currentEventHandlers[Ex12.EventId.DIM] = this.#ON_HOT_dim;
         this.#currentEventHandlers[Ex12.EventId.DO] = this.#ON_HOT_do;
+        this.#currentEventHandlers[Ex12.EventId.INCREASE] = this.#ON_HOT_increase;
         this.#currentEventHandlers[Ex12.EventId.OFF] = this.#ON_HOT_off;
         
         // ON_HOT behavior
@@ -260,10 +261,10 @@ class Ex12 extends Ex10Base
         } // end of behavior for ON_HOT
         
         // ON_HOT behavior
-        // uml: enter / { trace_action("t1Restart();\\nlight_red();", "20", "enter / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red(); }
+        // uml: enter, INCREASE / { trace_action("t1Restart();\\nlight_red();", "20", "enter, INCREASE / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red(); }
         {
-            // Step 1: execute action `trace_action("t1Restart();\\nlight_red();", "20", "enter / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red();`
-            this.trace_action("t1Restart();\\nlight_red();", "20", "enter / { t1Restart();\\nlight_red(); }");this.vars.t1_start_ms = Date.now();
+            // Step 1: execute action `trace_action("t1Restart();\\nlight_red();", "20", "enter, INCREASE / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red();`
+            this.trace_action("t1Restart();\\nlight_red();", "20", "enter, INCREASE / { t1Restart();\\nlight_red(); }");this.vars.t1_start_ms = Date.now();
             this.light_red();
         } // end of behavior for ON_HOT
     }
@@ -281,6 +282,7 @@ class Ex12 extends Ex10Base
         this.#currentStateExitHandler = this.#ON_GROUP_exit;
         this.#currentEventHandlers[Ex12.EventId.DIM] = null;  // no ancestor listens to this event
         this.#currentEventHandlers[Ex12.EventId.DO] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[Ex12.EventId.INCREASE] = null;  // no ancestor listens to this event
         this.#currentEventHandlers[Ex12.EventId.OFF] = this.#ON_GROUP_off;  // the next ancestor that handles this event is ON_GROUP
     }
     
@@ -305,8 +307,8 @@ class Ex12 extends Ex10Base
         // No ancestor state handles `do` event.
         
         // ON_HOT behavior
-        // uml: do [t1After(2.1s)] / { trace_transition("40"); } TransitionTo(ON2)
-        if (Date.now() - this.vars.t1_start_ms >= 2100)
+        // uml: do [t1After(4.2s)] / { trace_transition("40"); } TransitionTo(ON2)
+        if (Date.now() - this.vars.t1_start_ms >= 4200)
         {
             // Step 1: Exit states until we reach `ON_GROUP` state (Least Common Ancestor for transition).
             this.#ON_HOT_exit();
@@ -321,6 +323,22 @@ class Ex12 extends Ex10Base
             this.stateId = Ex12.StateId.ON2;
             // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
             return;
+        } // end of behavior for ON_HOT
+    }
+    
+    #ON_HOT_increase()
+    {
+        // No ancestor state handles `increase` event.
+        
+        // ON_HOT behavior
+        // uml: enter, INCREASE / { trace_action("t1Restart();\\nlight_red();", "20", "enter, INCREASE / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red(); }
+        {
+            // Step 1: execute action `trace_action("t1Restart();\\nlight_red();", "20", "enter, INCREASE / { t1Restart();\\nlight_red(); }");t1Restart();\nlight_red();`
+            this.trace_action("t1Restart();\\nlight_red();", "20", "enter, INCREASE / { t1Restart();\\nlight_red(); }");this.vars.t1_start_ms = Date.now();
+            this.light_red();
+            
+            // Step 2: determine if ancestor gets to handle event next.
+            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
         } // end of behavior for ON_HOT
     }
     
