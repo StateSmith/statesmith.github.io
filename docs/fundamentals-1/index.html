@@ -62,6 +62,7 @@ I would really appreciate making the content work better on mobile devices.
   <script src="Ex09.js"></script>
   <script src="Ex10.js"></script>
   <script src="Ex11.js"></script>
+  <script src="Ex12.js"></script>
 </head>
 
 <body>
@@ -728,6 +729,62 @@ I would really appreciate making the content work better on mobile devices.
 
       </div>
     </div>
+
+
+
+    <!-- Ex12 -->
+    <div class="b-example-divider"></div>
+
+    <div class="Ex12 SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Put It All Together!</h1>
+          <p>Try using the buttons below to send events to the Ex12 state machine.</p>
+
+          <div class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+            <input class="form-check-input" type="checkbox" id="Ex12-auto-clear-highlights" checked="">
+            <label class="form-check-label" for="Ex12-auto-clear-highlights"
+              title="Without this, highlights are cleared before every state machine event dispatch.">Auto clear diagram
+              highlights.</label>
+          </div>
+
+          <div class="sm-vars mb-2 d-grid gap-2 d-flex justify-content-center justify-content-lg-start">
+            <div>State machine variables <code>count: <span class="sm-var-count-value">0</span></code></div>
+          </div>
+
+          <div class="SS_TEMPLATE_CONTENT_CONTROLS">
+            <object data="lightbulb.svg" height="50" width="50" type="image/svg+xml" class="LightBulb"></object>
+            <button type="button" class="Ex-button-increase SS_TEMPLATE_BUTTON"
+              title="Press to send INCREASE event to state machine.">INC</button>
+            <button type="button" class="Ex-button-dim SS_TEMPLATE_BUTTON"
+              title="Press to send DIM event to state machine.">DIM</button>
+            <button type="button" class="Ex-button-off SS_TEMPLATE_BUTTON"
+              title="Press to send OFF event to state machine.">OFF</button>
+          </div>
+
+          <!-- hidden stuff to make it work -->
+          <div style="display: none;">
+            <select class="Ex-poll-rate form-select-sm">
+              <option value="350" selected></option>
+            </select>
+
+            <div class="SS_TEMPLATE_CONTENT_FORM_SWITCH">
+              <input class="form-check-input Ex-input-switch-1" type="checkbox" id="Ex01Polled-input-switch-1">
+              <label class="form-check-label" for="Ex01Polled-input-switch-1" title="State machine switch input.">Switch
+                input</label>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <object data="Ex12.drawio.svg" type="image/svg+xml" class="StateMachine d-block mx-auto"></object>
+        </div>
+
+      </div>
+    </div>
+
 
 
     <!-- MORE -->
