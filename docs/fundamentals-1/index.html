@@ -740,7 +740,9 @@ I would really appreciate making the content work better on mobile devices.
 
         <div class="SS_TEMPLATE_CONTENT_LEFT">
           <h1 class="SS_TEMPLATE_CONTENT_HEADER">Consuming Events</h1>
-          <p class="lead">A child state can consume an event. Behaviors can have multiple triggers.</p>
+          <p class="lead">A child state can consume an event (deny ancestor state).</p>
+
+          <p>📺 <a href="https://www.youtube.com/watch?v=38CaxeJCIpk&ab_channel=StateSmith">3 minute video tutorial</a></p>
 
           <p>This example is very similar to Ex10, but this time we want to stay in the <code>ON_HOT</code> state for 4.2 seconds no matter what. Sending events <code>OFF</code> or <code>DIM</code>
             to the <code>ON_HOT</code> state should do nothing.
@@ -749,8 +751,7 @@ I would really appreciate making the content work better on mobile devices.
           <p>We simply make <code>ON_HOT</code> consume the <code>OFF</code> and <code>DIM</code> events so that its parent <code>ON_GROUP</code> doesn't get a chance to see the events.
           </p>
 
-          <p>If you had a lot of events that you wanted to consume, you should check out <a href="https://github.com/StateSmith/StateSmith/issues/161">TriggerMaps</a> so you can just
-            type <code>ALL</code> (or whatever you decide).</p>
+          <p>Have a lot of events to consume? Check out <a href="https://github.com/StateSmith/StateSmith/issues/161">TriggerMaps</a>.</p>
 
           <p>This example may feel a bit contrived, but this ability for child states to consume an event is crucial for many applications like user interfaces.
           </p>
