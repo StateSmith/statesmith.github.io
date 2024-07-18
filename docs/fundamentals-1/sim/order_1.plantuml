@@ -3,8 +3,6 @@
 ' //////////////////////// STATE ORGANIZATION ///////////////////////
 ' More info: https://github.com/StateSmith/StateSmith/wiki/PlantUML
 
-state WAITING <<dark>>
-
 state ORDER_MENU {
     [*] -> BEVERAGE
     state BEVERAGE <<blue>> {
@@ -12,7 +10,7 @@ state ORDER_MENU {
         state WATER
     }
     state FOOD <<gold>> {
-        [*] --> SANDWICH: / log("transition action 2")
+        [*] --> SANDWICH: / log("tran action 2");
         state SANDWICH
     }
 }
@@ -21,25 +19,21 @@ state ORDER_MENU {
 ' ///////////////////////// STATE HANDLERS /////////////////////////
 ' Syntax: https://github.com/StateSmith/StateSmith/wiki/Behaviors
 
-[*] -> WAITING
-
-WAITING: enter / log("waiting entered");
-WAITING: exit / log("waiting exited");
-WAITING --> ORDER_MENU : ORDER_PRESS
+[*] --> ORDER_MENU
 
 ORDER_MENU: enter / log("order menu entered");
 ORDER_MENU: exit / log("order menu exited");
-ORDER_MENU --> WAITING : EXIT_PRESS
 
 BEVERAGE: enter / log("beverage entered");
 BEVERAGE: exit / log("beverage exited");
-BEVERAGE --> FOOD : FOOD_PRESS / log("transition action 1");
+BEVERAGE --> FOOD : EV1 / log("tran action 1");
 
 WATER: enter / log("water entered");
 WATER: exit / log("water exited");
 
 FOOD: enter / log("food entered");
 FOOD: exit / log("food exited");
+' FOOD --> BEVERAGE : EV1 / log("tran action 3");
 
 SANDWICH: enter / log("sandwich entered");
 SANDWICH: exit / log("sandwich exited");

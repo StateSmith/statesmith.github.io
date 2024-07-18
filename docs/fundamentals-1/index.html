@@ -812,13 +812,29 @@ I would really appreciate making the content work better on mobile devices.
           <p>
             StateSmith follows the UML specification which states that a transition's action code is run after states have been exited and before states are entered.
           </p>
-          <p>
 
+          <p>
+            Assume you are in the <code>WATER</code> state and the <code>EV1</code> event is dispatched. You will see the following order of actions:
+            <ol>
+              <li><code>log("water exited");</code></li>
+              <li><code>log("beverage exited");</code></li>
+              <li><code>log("tran action 1");</code></li>
+              <li><code>log("food entered");</code></li>
+              <li><code>log("tran action 2");</code></li>
+              <li><code>log("sandwich entered");</code></li>
+            </ol>
+          </p>
+
+          <p>
+            You can play with an actual example <a href="sim/order_1.sim.html">here</a> (requires a desktop).
+            <i>
+              Note that the simulator behaves correctly, but has some diagram rendering <a href="https://github.com/StateSmith/StateSmith/wiki/Simulator">limitations</a>.
+            </i>
           </p>
         </div>
 
         <div class="SS_TEMPLATE_CONTENT_RIGHT">
-          <img class="d-block mx-lg-auto img-fluid" src="docs/sim_order_1.png">
+          <img class="d-block mx-auto img-fluid" src="sim/order_1.png">
         </div>
 
       </div>
@@ -845,7 +861,7 @@ I would really appreciate making the content work better on mobile devices.
         </div>
 
         <div class="SS_TEMPLATE_CONTENT_RIGHT">
-          <img class="d-block mx-lg-auto img-fluid" src="hurry-up-make-more.png">
+          <img class="d-block mx-auto img-fluid" src="hurry-up-make-more.png">
         </div>
 
       </div>

@@ -216,14 +216,6 @@
         <pre class="mermaid">
 stateDiagram
 
-WAITING
-
-WAITING : WAITING
-
-WAITING : enter / #123; log("waiting entered")#59; #125;
-
-WAITING : exit / #123; log("waiting exited")#59; #125;
-
 state ORDER_MENU {
 
         state "$initial_state" as ORDER_MENU.(InitialState)
@@ -260,19 +252,15 @@ state ORDER_MENU {
 
 state "$initial_state" as ROOT.(InitialState)
 
-WAITING --> ORDER_MENU : ORDER_PRESS
-
-ORDER_MENU --> WAITING : EXIT_PRESS
-
 ORDER_MENU.(InitialState) --> BEVERAGE
 
-BEVERAGE --> FOOD : FOOD_PRESS / #123; log("transition action 1")#59; #125;
+BEVERAGE --> FOOD : EV1 / #123; log("tran action 1")#59; #125;
 
 BEVERAGE.(InitialState) --> WATER
 
-FOOD.(InitialState) --> SANDWICH : / #123; log("transition action 2") #125;
+FOOD.(InitialState) --> SANDWICH : / #123; log("tran action 2")#59; #125;
 
-ROOT.(InitialState) --> WAITING
+ROOT.(InitialState) --> ORDER_MENU
 
 
 
@@ -317,13 +305,11 @@ class order_1
 evaluateGuard = null;
     static EventId = 
     {
-        EXIT_PRESS : 0,
-        FOOD_PRESS : 1,
-        ORDER_PRESS : 2,
+        EV1 : 0,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 3;
+    static EventIdCount = 1;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -334,11 +320,10 @@ evaluateGuard = null;
         WATER : 3,
         FOOD : 4,
         SANDWICH : 5,
-        WAITING : 6,
     }
     static { Object.freeze(this.StateId); }
     
-    static StateIdCount = 7;
+    static StateIdCount = 6;
     static { Object.freeze(this.StateIdCount); }
     
     // Used internally by state machine. Feel free to inspect, but don't modify.
@@ -368,20 +353,44 @@ evaluateGuard = null;
             // ROOT.<InitialState> is a pseudo state and cannot have an `enter` trigger.
             
             // ROOT.<InitialState> behavior
-            // uml: / { this.tracer?.edgeTransition("edge6"); } TransitionTo(WAITING)
+            // uml: / { this.tracer?.edgeTransition("edge4"); } TransitionTo(ORDER_MENU)
             {
                 // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
                 
-                // Step 2: Transition action: `this.tracer?.edgeTransition("edge6");`.
-                this.tracer?.edgeTransition("edge6");
+                // Step 2: Transition action: `this.tracer?.edgeTransition("edge4");`.
+                this.tracer?.edgeTransition("edge4");
                 
-                // Step 3: Enter/move towards transition target `WAITING`.
-                this.#WAITING_enter();
+                // Step 3: Enter/move towards transition target `ORDER_MENU`.
+                this.#ORDER_MENU_enter();
                 
-                // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-                this.stateId = order_1.StateId.WAITING;
-                // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-                return;
+                // ORDER_MENU.<InitialState> behavior
+                // uml: / { this.tracer?.edgeTransition("edge0"); } TransitionTo(BEVERAGE)
+                {
+                    // Step 1: Exit states until we reach `ORDER_MENU` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
+                    
+                    // Step 2: Transition action: `this.tracer?.edgeTransition("edge0");`.
+                    this.tracer?.edgeTransition("edge0");
+                    
+                    // Step 3: Enter/move towards transition target `BEVERAGE`.
+                    this.#BEVERAGE_enter();
+                    
+                    // BEVERAGE.<InitialState> behavior
+                    // uml: / { this.tracer?.edgeTransition("edge2"); } TransitionTo(WATER)
+                    {
+                        // Step 1: Exit states until we reach `BEVERAGE` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
+                        
+                        // Step 2: Transition action: `this.tracer?.edgeTransition("edge2");`.
+                        this.tracer?.edgeTransition("edge2");
+                        
+                        // Step 3: Enter/move towards transition target `WATER`.
+                        this.#WATER_enter();
+                        
+                        // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
+                        this.stateId = order_1.StateId.WATER;
+                        // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
+                        return;
+                    } // end of behavior for BEVERAGE.<InitialState>
+                } // end of behavior for ORDER_MENU.<InitialState>
             } // end of behavior for ROOT.<InitialState>
         } // end of behavior for ROOT
     }
@@ -433,7 +442,6 @@ evaluateGuard = null;
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#ORDER_MENU_exit;
-        this.#currentEventHandlers[order_1.EventId.EXIT_PRESS] = this.#ORDER_MENU_exit_press;
         
         // ORDER_MENU behavior
         // uml: enter / { this.tracer?.enterState('ORDER_MENU'); }
@@ -468,30 +476,6 @@ evaluateGuard = null;
         
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[order_1.EventId.EXIT_PRESS] = null;  // no ancestor listens to this event
-    }
-    
-    #ORDER_MENU_exit_press()
-    {
-        // No ancestor state handles `exit_press` event.
-        
-        // ORDER_MENU behavior
-        // uml: EXIT_PRESS / { this.tracer?.edgeTransition("edge1"); } TransitionTo(WAITING)
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#exitUpToStateHandler(this.#ROOT_exit);
-            
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge1");`.
-            this.tracer?.edgeTransition("edge1");
-            
-            // Step 3: Enter/move towards transition target `WAITING`.
-            this.#WAITING_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = order_1.StateId.WAITING;
-            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-            return;
-        } // end of behavior for ORDER_MENU
     }
     
     
@@ -503,7 +487,7 @@ evaluateGuard = null;
     {
         // setup trigger/event handlers
         this.#currentStateExitHandler = this.#BEVERAGE_exit;
-        this.#currentEventHandlers[order_1.EventId.FOOD_PRESS] = this.#BEVERAGE_food_press;
+        this.#currentEventHandlers[order_1.EventId.EV1] = this.#BEVERAGE_ev1;
         
         // BEVERAGE behavior
         // uml: enter / { this.tracer?.enterState('BEVERAGE'); }
@@ -538,32 +522,32 @@ evaluateGuard = null;
         
         // adjust function pointers for this state's exit
         this.#currentStateExitHandler = this.#ORDER_MENU_exit;
-        this.#currentEventHandlers[order_1.EventId.FOOD_PRESS] = null;  // no ancestor listens to this event
+        this.#currentEventHandlers[order_1.EventId.EV1] = null;  // no ancestor listens to this event
     }
     
-    #BEVERAGE_food_press()
+    #BEVERAGE_ev1()
     {
-        // No ancestor state handles `food_press` event.
+        // No ancestor state handles `ev1` event.
         
         // BEVERAGE behavior
-        // uml: FOOD_PRESS / { this.tracer?.log("⚡ FSM would execute action: " + "log(\"transition action 1\");");this.tracer?.edgeTransition("edge3"); } TransitionTo(FOOD)
+        // uml: EV1 / { this.tracer?.log("⚡ FSM would execute action: " + "log(\"tran action 1\");");this.tracer?.edgeTransition("edge1"); } TransitionTo(FOOD)
         {
             // Step 1: Exit states until we reach `ORDER_MENU` state (Least Common Ancestor for transition).
             this.#exitUpToStateHandler(this.#ORDER_MENU_exit);
             
-            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "log(\"transition action 1\");");this.tracer?.edgeTransition("edge3");`.
-            this.tracer?.log("⚡ FSM would execute action: " + "log(\"transition action 1\");");this.tracer?.edgeTransition("edge3");
+            // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "log(\"tran action 1\");");this.tracer?.edgeTransition("edge1");`.
+            this.tracer?.log("⚡ FSM would execute action: " + "log(\"tran action 1\");");this.tracer?.edgeTransition("edge1");
             
             // Step 3: Enter/move towards transition target `FOOD`.
             this.#FOOD_enter();
             
             // FOOD.<InitialState> behavior
-            // uml: / { this.tracer?.log("⚡ FSM would execute action: " + "log(\"transition action 2\")");this.tracer?.edgeTransition("edge5"); } TransitionTo(SANDWICH)
+            // uml: / { this.tracer?.log("⚡ FSM would execute action: " + "log(\"tran action 2\");");this.tracer?.edgeTransition("edge3"); } TransitionTo(SANDWICH)
             {
                 // Step 1: Exit states until we reach `FOOD` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
                 
-                // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "log(\"transition action 2\")");this.tracer?.edgeTransition("edge5");`.
-                this.tracer?.log("⚡ FSM would execute action: " + "log(\"transition action 2\")");this.tracer?.edgeTransition("edge5");
+                // Step 2: Transition action: `this.tracer?.log("⚡ FSM would execute action: " + "log(\"tran action 2\");");this.tracer?.edgeTransition("edge3");`.
+                this.tracer?.log("⚡ FSM would execute action: " + "log(\"tran action 2\");");this.tracer?.edgeTransition("edge3");
                 
                 // Step 3: Enter/move towards transition target `SANDWICH`.
                 this.#SANDWICH_enter();
@@ -711,100 +695,6 @@ evaluateGuard = null;
         this.#currentStateExitHandler = this.#FOOD_exit;
     }
     
-    
-    ////////////////////////////////////////////////////////////////////////////////
-    // event handlers for state WAITING
-    ////////////////////////////////////////////////////////////////////////////////
-    
-    #WAITING_enter()
-    {
-        // setup trigger/event handlers
-        this.#currentStateExitHandler = this.#WAITING_exit;
-        this.#currentEventHandlers[order_1.EventId.ORDER_PRESS] = this.#WAITING_order_press;
-        
-        // WAITING behavior
-        // uml: enter / { this.tracer?.enterState('WAITING'); }
-        {
-            // Step 1: execute action `this.tracer?.enterState('WAITING');`
-            this.tracer?.enterState('WAITING');
-        } // end of behavior for WAITING
-        
-        // WAITING behavior
-        // uml: enter / { this.tracer?.log("⚡ FSM would execute action: " + "log(\"waiting entered\");"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "log(\"waiting entered\");");`
-            this.tracer?.log("⚡ FSM would execute action: " + "log(\"waiting entered\");");
-        } // end of behavior for WAITING
-    }
-    
-    #WAITING_exit()
-    {
-        // WAITING behavior
-        // uml: exit / { this.tracer?.log("⚡ FSM would execute action: " + "log(\"waiting exited\");"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "log(\"waiting exited\");");`
-            this.tracer?.log("⚡ FSM would execute action: " + "log(\"waiting exited\");");
-        } // end of behavior for WAITING
-        
-        // WAITING behavior
-        // uml: exit / { this.tracer?.exitState('WAITING'); }
-        {
-            // Step 1: execute action `this.tracer?.exitState('WAITING');`
-            this.tracer?.exitState('WAITING');
-        } // end of behavior for WAITING
-        
-        // adjust function pointers for this state's exit
-        this.#currentStateExitHandler = this.#ROOT_exit;
-        this.#currentEventHandlers[order_1.EventId.ORDER_PRESS] = null;  // no ancestor listens to this event
-    }
-    
-    #WAITING_order_press()
-    {
-        // No ancestor state handles `order_press` event.
-        
-        // WAITING behavior
-        // uml: ORDER_PRESS / { this.tracer?.edgeTransition("edge0"); } TransitionTo(ORDER_MENU)
-        {
-            // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition).
-            this.#WAITING_exit();
-            
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge0");`.
-            this.tracer?.edgeTransition("edge0");
-            
-            // Step 3: Enter/move towards transition target `ORDER_MENU`.
-            this.#ORDER_MENU_enter();
-            
-            // ORDER_MENU.<InitialState> behavior
-            // uml: / { this.tracer?.edgeTransition("edge2"); } TransitionTo(BEVERAGE)
-            {
-                // Step 1: Exit states until we reach `ORDER_MENU` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
-                
-                // Step 2: Transition action: `this.tracer?.edgeTransition("edge2");`.
-                this.tracer?.edgeTransition("edge2");
-                
-                // Step 3: Enter/move towards transition target `BEVERAGE`.
-                this.#BEVERAGE_enter();
-                
-                // BEVERAGE.<InitialState> behavior
-                // uml: / { this.tracer?.edgeTransition("edge4"); } TransitionTo(WATER)
-                {
-                    // Step 1: Exit states until we reach `BEVERAGE` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
-                    
-                    // Step 2: Transition action: `this.tracer?.edgeTransition("edge4");`.
-                    this.tracer?.edgeTransition("edge4");
-                    
-                    // Step 3: Enter/move towards transition target `WATER`.
-                    this.#WATER_enter();
-                    
-                    // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-                    this.stateId = order_1.StateId.WATER;
-                    // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
-                    return;
-                } // end of behavior for BEVERAGE.<InitialState>
-            } // end of behavior for ORDER_MENU.<InitialState>
-        } // end of behavior for WAITING
-    }
-    
     // Thread safe.
     static stateIdToString(id)
     {
@@ -816,7 +706,6 @@ evaluateGuard = null;
             case order_1.StateId.WATER: return "WATER";
             case order_1.StateId.FOOD: return "FOOD";
             case order_1.StateId.SANDWICH: return "SANDWICH";
-            case order_1.StateId.WAITING: return "WAITING";
             default: return "?";
         }
     }
@@ -826,9 +715,7 @@ evaluateGuard = null;
     {
         switch (id)
         {
-            case order_1.EventId.EXIT_PRESS: return "EXIT_PRESS";
-            case order_1.EventId.FOOD_PRESS: return "FOOD_PRESS";
-            case order_1.EventId.ORDER_PRESS: return "ORDER_PRESS";
+            case order_1.EventId.EV1: return "EV1";
             default: return "?";
         }
     }
@@ -860,7 +747,7 @@ evaluateGuard = null;
             center: true
         });
 
-        const diagramEventNamesArray = ['EXIT_PRESS', 'FOOD_PRESS', 'ORDER_PRESS', ];
+        const diagramEventNamesArray = ['EV1', ];
 
         const leftPane = document.querySelector(".main");
         const rightPane = document.querySelector(".sidebar");
