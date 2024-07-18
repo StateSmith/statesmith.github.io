@@ -865,22 +865,28 @@ I would really appreciate making the content work better on mobile devices.
             If a transition occurs, no other behaviors will be checked for any state. This also applies to the <code>do</code> event.
           </p>
 
-
           <p>
-            Assume you are in the <code>WATER</code> state and the <code>DO</code> event is dispatched. Assume <code>water_count == 0</code>. 
+            Assume you are in the <code>WAIT</code> state, the <code>DO</code> event is dispatched, and <code>wait_count &lt; X</code>:
             <ol>
-              <li><code>water_count++;</code></li>
-              <li>transition guard <code>[water_count > X]</code> is evaluated to false</li>
-              <li><code>bev_count++;</code></li>
+              <li>transition guard <code>[wait_count &gt; X]</code> is evaluated to false</li>
+              <li><code>wait_count++;</code></li>
               <li><code>menu_count++;</code></li>
             </ol>
           </p>
 
           <p>
-            Assume you are now in the <code>ODD_DUCK</code> state and the <code>DO</code> event is dispatched. Assume <code>water_count == 0</code>. 
+            Still in the <code>WAIT</code> state, the <code>DO</code> event is dispatched, and <code>wait_count &gt; X</code>:
+            <ol>
+              <li>transition guard <code>[wait_count &gt; X]</code> is evaluated to true.</li>
+              <li>transition occurs (no other state behaviors are checked).</li>
+            </ol>
+          </p>
+
+          <p>
+            Assume you are now in the <code>WATER</code> state, the <code>DO</code> event is dispatched, and <code>water_count &lt; Y</code>:
             <ol>
               <li><code>water_count++;</code></li>
-              <li>transition guard <code>[water_count > X]</code> is evaluated to false</li>
+              <li>transition guard <code>[water_count &gt; Y]</code> is evaluated to false</li>
               <li><code>bev_count++;</code></li>
               <li><code>menu_count++;</code></li>
             </ol>

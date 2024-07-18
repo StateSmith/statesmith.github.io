@@ -236,25 +236,15 @@ state MENU {
 
         state "$initial_state" as MENU.(InitialState)
 
-        ODD_DUCK
-
-        ODD_DUCK : ODD_DUCK
-
-        ODD_DUCK : 1. do / #123; duck_count++#59; #125;
-
-        ODD_DUCK : do / #123; consume_event = true#59; #125;
-
 }
 
 state "$initial_state" as ROOT.(InitialState)
 
-WAIT --> WATER : 1. do [wait_count > Y]
+WAIT --> WATER : 1. do [wait_count > X]
 
-WATER --> ODD_DUCK : do [water_count > X]
+WATER --> WAIT : do [water_count > Y]
 
 MENU.(InitialState) --> WAIT
-
-ODD_DUCK --> WAIT : RESET
 
 ROOT.(InitialState) --> MENU
 
@@ -302,11 +292,10 @@ evaluateGuard = null;
     static EventId = 
     {
         DO : 0, // The `do` event is special. State event handlers do not consume this event (ancestors all get it too) unless a transition occurs.
-        RESET : 1,
     }
     static { Object.freeze(this.EventId); }
     
-    static EventIdCount = 2;
+    static EventIdCount = 1;
     static { Object.freeze(this.EventIdCount); }
     
     static StateId = 
@@ -315,12 +304,11 @@ evaluateGuard = null;
         MENU : 1,
         BEVERAGE : 2,
         WATER : 3,
-        ODD_DUCK : 4,
-        WAIT : 5,
+        WAIT : 4,
     }
     static { Object.freeze(this.StateId); }
     
-    static StateIdCount = 6;
+    static StateIdCount = 5;
     static { Object.freeze(this.StateIdCount); }
     
     // Used internally by state machine. Feel free to inspect, but don't modify.
@@ -350,12 +338,12 @@ evaluateGuard = null;
             // ROOT.<InitialState> is a pseudo state and cannot have an `enter` trigger.
             
             // ROOT.<InitialState> behavior
-            // uml: / { this.tracer?.edgeTransition("edge4"); } TransitionTo(MENU)
+            // uml: / { this.tracer?.edgeTransition("edge3"); } TransitionTo(MENU)
             {
                 // Step 1: Exit states until we reach `ROOT` state (Least Common Ancestor for transition). Already at LCA, no exiting required.
                 
-                // Step 2: Transition action: `this.tracer?.edgeTransition("edge4");`.
-                this.tracer?.edgeTransition("edge4");
+                // Step 2: Transition action: `this.tracer?.edgeTransition("edge3");`.
+                this.tracer?.edgeTransition("edge3");
                 
                 // Step 3: Enter/move towards transition target `MENU`.
                 this.#MENU_enter();
@@ -564,8 +552,8 @@ evaluateGuard = null;
         } // end of behavior for WATER
         
         // WATER behavior
-        // uml: do [this.tracer?.log("🛡️ User evaluating guard: " + "water_count > X") || this.evaluateGuard("water_count > X")] / { this.tracer?.edgeTransition("edge1"); } TransitionTo(ODD_DUCK)
-        if (this.tracer?.log("🛡️ User evaluating guard: " + "water_count > X") || this.evaluateGuard("water_count > X"))
+        // uml: do [this.tracer?.log("🛡️ User evaluating guard: " + "water_count > Y") || this.evaluateGuard("water_count > Y")] / { this.tracer?.edgeTransition("edge1"); } TransitionTo(WAIT)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "water_count > Y") || this.evaluateGuard("water_count > Y"))
         {
             // Step 1: Exit states until we reach `MENU` state (Least Common Ancestor for transition).
             this.#exitUpToStateHandler(this.#MENU_exit);
@@ -573,98 +561,14 @@ evaluateGuard = null;
             // Step 2: Transition action: `this.tracer?.edgeTransition("edge1");`.
             this.tracer?.edgeTransition("edge1");
             
-            // Step 3: Enter/move towards transition target `ODD_DUCK`.
-            this.#ODD_DUCK_enter();
-            
-            // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
-            this.stateId = do_1.StateId.ODD_DUCK;
-            this.#ancestorEventHandler = null;
-            return;
-        } // end of behavior for WATER
-    }
-    
-    
-    ////////////////////////////////////////////////////////////////////////////////
-    // event handlers for state ODD_DUCK
-    ////////////////////////////////////////////////////////////////////////////////
-    
-    #ODD_DUCK_enter()
-    {
-        // setup trigger/event handlers
-        this.#currentStateExitHandler = this.#ODD_DUCK_exit;
-        this.#currentEventHandlers[do_1.EventId.DO] = this.#ODD_DUCK_do;
-        this.#currentEventHandlers[do_1.EventId.RESET] = this.#ODD_DUCK_reset;
-        
-        // ODD_DUCK behavior
-        // uml: enter / { this.tracer?.enterState('ODD_DUCK'); }
-        {
-            // Step 1: execute action `this.tracer?.enterState('ODD_DUCK');`
-            this.tracer?.enterState('ODD_DUCK');
-        } // end of behavior for ODD_DUCK
-    }
-    
-    #ODD_DUCK_exit()
-    {
-        // ODD_DUCK behavior
-        // uml: exit / { this.tracer?.exitState('ODD_DUCK'); }
-        {
-            // Step 1: execute action `this.tracer?.exitState('ODD_DUCK');`
-            this.tracer?.exitState('ODD_DUCK');
-        } // end of behavior for ODD_DUCK
-        
-        // adjust function pointers for this state's exit
-        this.#currentStateExitHandler = this.#MENU_exit;
-        this.#currentEventHandlers[do_1.EventId.DO] = this.#MENU_do;  // the next ancestor that handles this event is MENU
-        this.#currentEventHandlers[do_1.EventId.RESET] = null;  // no ancestor listens to this event
-    }
-    
-    #ODD_DUCK_do()
-    {
-        // Setup handler for next ancestor that listens to `do` event.
-        this.#ancestorEventHandler = this.#MENU_do;
-        
-        // ODD_DUCK behavior
-        // uml: 1. do / { this.tracer?.log("⚡ FSM would execute action: " + "duck_count++;"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "duck_count++;");`
-            this.tracer?.log("⚡ FSM would execute action: " + "duck_count++;");
-            
-            // Step 2: determine if ancestor gets to handle event next.
-            // Don't consume special `do` event.
-        } // end of behavior for ODD_DUCK
-        
-        // ODD_DUCK behavior
-        // uml: do / { this.tracer?.log("⚡ FSM would execute action: " + "consume_event = true;"); }
-        {
-            // Step 1: execute action `this.tracer?.log("⚡ FSM would execute action: " + "consume_event = true;");`
-            this.tracer?.log("⚡ FSM would execute action: " + "consume_event = true;");
-            
-            // Step 2: determine if ancestor gets to handle event next.
-            // Don't consume special `do` event.
-        } // end of behavior for ODD_DUCK
-    }
-    
-    #ODD_DUCK_reset()
-    {
-        // No ancestor state handles `reset` event.
-        
-        // ODD_DUCK behavior
-        // uml: RESET / { this.tracer?.edgeTransition("edge3"); } TransitionTo(WAIT)
-        {
-            // Step 1: Exit states until we reach `MENU` state (Least Common Ancestor for transition).
-            this.#ODD_DUCK_exit();
-            
-            // Step 2: Transition action: `this.tracer?.edgeTransition("edge3");`.
-            this.tracer?.edgeTransition("edge3");
-            
             // Step 3: Enter/move towards transition target `WAIT`.
             this.#WAIT_enter();
             
             // Step 4: complete transition. Ends event dispatch. No other behaviors are checked.
             this.stateId = do_1.StateId.WAIT;
-            // No ancestor handles event. Can skip nulling `ancestorEventHandler`.
+            this.#ancestorEventHandler = null;
             return;
-        } // end of behavior for ODD_DUCK
+        } // end of behavior for WATER
     }
     
     
@@ -706,8 +610,8 @@ evaluateGuard = null;
         this.#ancestorEventHandler = this.#MENU_do;
         
         // WAIT behavior
-        // uml: 1. do [this.tracer?.log("🛡️ User evaluating guard: " + "wait_count > Y") || this.evaluateGuard("wait_count > Y")] / { this.tracer?.edgeTransition("edge0"); } TransitionTo(WATER)
-        if (this.tracer?.log("🛡️ User evaluating guard: " + "wait_count > Y") || this.evaluateGuard("wait_count > Y"))
+        // uml: 1. do [this.tracer?.log("🛡️ User evaluating guard: " + "wait_count > X") || this.evaluateGuard("wait_count > X")] / { this.tracer?.edgeTransition("edge0"); } TransitionTo(WATER)
+        if (this.tracer?.log("🛡️ User evaluating guard: " + "wait_count > X") || this.evaluateGuard("wait_count > X"))
         {
             // Step 1: Exit states until we reach `MENU` state (Least Common Ancestor for transition).
             this.#WAIT_exit();
@@ -745,7 +649,6 @@ evaluateGuard = null;
             case do_1.StateId.MENU: return "MENU";
             case do_1.StateId.BEVERAGE: return "BEVERAGE";
             case do_1.StateId.WATER: return "WATER";
-            case do_1.StateId.ODD_DUCK: return "ODD_DUCK";
             case do_1.StateId.WAIT: return "WAIT";
             default: return "?";
         }
@@ -757,7 +660,6 @@ evaluateGuard = null;
         switch (id)
         {
             case do_1.EventId.DO: return "DO";
-            case do_1.EventId.RESET: return "RESET";
             default: return "?";
         }
     }
@@ -789,7 +691,7 @@ evaluateGuard = null;
             center: true
         });
 
-        const diagramEventNamesArray = ['do', 'RESET', ];
+        const diagramEventNamesArray = ['do', ];
 
         const leftPane = document.querySelector(".main");
         const rightPane = document.querySelector(".sidebar");
