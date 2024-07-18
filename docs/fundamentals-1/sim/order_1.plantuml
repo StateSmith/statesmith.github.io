@@ -1,0 +1,70 @@
+@startuml order_1
+
+' //////////////////////// STATE ORGANIZATION ///////////////////////
+' More info: https://github.com/StateSmith/StateSmith/wiki/PlantUML
+
+state WAITING <<dark>>
+
+state ORDER_MENU {
+    [*] -> BEVERAGE
+    state BEVERAGE <<blue>> {
+        [*] -> WATER
+        state WATER
+    }
+    state FOOD <<gold>> {
+        [*] --> SANDWICH: / log("transition action 2")
+        state SANDWICH
+    }
+}
+
+
+' ///////////////////////// STATE HANDLERS /////////////////////////
+' Syntax: https://github.com/StateSmith/StateSmith/wiki/Behaviors
+
+[*] -> WAITING
+
+WAITING: enter / log("waiting entered");
+WAITING: exit / log("waiting exited");
+WAITING --> ORDER_MENU : ORDER_PRESS
+
+ORDER_MENU: enter / log("order menu entered");
+ORDER_MENU: exit / log("order menu exited");
+ORDER_MENU --> WAITING : EXIT_PRESS
+
+BEVERAGE: enter / log("beverage entered");
+BEVERAGE: exit / log("beverage exited");
+BEVERAGE --> FOOD : FOOD_PRESS / log("transition action 1");
+
+WATER: enter / log("water entered");
+WATER: exit / log("water exited");
+
+FOOD: enter / log("food entered");
+FOOD: exit / log("food exited");
+
+SANDWICH: enter / log("sandwich entered");
+SANDWICH: exit / log("sandwich exited");
+
+
+'############################ styles ############################
+skinparam state {
+    ' red style:
+    BackgroundColor<<red>> a20025
+    FontColor<<red>> white
+    ' blue style:
+    BackgroundColor<<blue>> 1ba1e2
+    FontColor<<blue>> white
+    ' gold style:
+    BackgroundColor<<gold>> f0a30a
+    ' dark style:
+    BackgroundColor<<dark>> 545454
+    FontColor<<dark>> white
+}
+
+
+' //////////////////////// StateSmith config ////////////////////////
+' More info: https://github.com/StateSmith/StateSmith/issues/335
+
+/'! $CONFIG : toml
+SmRunnerSettings.transpilerId = "JavaScript"
+'/
+@enduml
