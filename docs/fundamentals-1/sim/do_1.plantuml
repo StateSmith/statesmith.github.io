@@ -1,0 +1,56 @@
+@startuml do_1
+
+' //////////////////////// STATE ORGANIZATION ///////////////////////
+' More info: https://github.com/StateSmith/StateSmith/wiki/PlantUML
+
+state MENU {
+    state WAIT
+    state BEVERAGE <<blue>> {
+        state WATER 
+    }
+    [*] -> WAIT
+    state ODD_DUCK <<gold>>
+}
+
+' ///////////////////////// STATE HANDLERS /////////////////////////
+' Syntax: https://github.com/StateSmith/StateSmith/wiki/Behaviors
+
+[*] --> MENU
+
+MENU: do / menu_count++;
+BEVERAGE: do / bev_count++;
+
+WAIT: do / wait_count++;
+WAIT --> WATER: 1. [wait_count > Y]
+
+WATER: 1. do / water_count++;
+WATER --> ODD_DUCK: [water_count > X]
+
+ODD_DUCK: 1. do / duck_count++;
+ODD_DUCK: do / consume_event = true;
+ODD_DUCK --> WAIT: RESET
+
+
+'############################ styles ############################
+skinparam state {
+    ' red style:
+    BackgroundColor<<red>> a20025
+    FontColor<<red>> white
+    ' blue style:
+    BackgroundColor<<blue>> 1ba1e2
+    FontColor<<blue>> white
+    ' gold style:
+    BackgroundColor<<gold>> f0a30a
+    ' dark style:
+    BackgroundColor<<dark>> 545454
+    FontColor<<dark>> white
+}
+
+
+' //////////////////////// StateSmith config ////////////////////////
+' More info: https://github.com/StateSmith/StateSmith/issues/335
+
+/'! $CONFIG : toml
+SmRunnerSettings.transpilerId = "JavaScript"
+'/
+@enduml

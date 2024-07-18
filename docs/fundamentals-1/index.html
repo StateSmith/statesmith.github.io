@@ -834,11 +834,74 @@ I would really appreciate making the content work better on mobile devices.
         </div>
 
         <div class="SS_TEMPLATE_CONTENT_RIGHT">
-          <img class="d-block mx-auto img-fluid" src="sim/order_1.png">
+          <img class="d-block mx-auto img" src="sim/order_1.png">
         </div>
 
       </div>
     </div>
+
+
+
+
+
+    <!-- MORE -->
+    <div class="b-example-divider"></div>
+
+    <div class="SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER"><code>DO</code> Events Are Special</h1>
+          <p class="lead">They aren't normally consumed</p>
+          <p>
+            When an event is dispatched to a state machine, the active state first gets a chance to handle it. If it doesn't handle the event, then its parent gets a chance... all the way up to the state machine root.
+          </p>
+
+          <p>
+            There is one exception - the <code>do</code> event. The <code>do</code> event is special in that state behaviors don't normally consume it. This allows child and parent states to <code>do</code> some work all the way up the chain.
+          </p>
+
+          <p>
+            If a transition occurs, no other behaviors will be checked for any state. This also applies to the <code>do</code> event.
+          </p>
+
+
+          <p>
+            Assume you are in the <code>WATER</code> state and the <code>DO</code> event is dispatched. Assume <code>water_count == 0</code>. 
+            <ol>
+              <li><code>water_count++;</code></li>
+              <li>transition guard <code>[water_count > X]</code> is evaluated to false</li>
+              <li><code>bev_count++;</code></li>
+              <li><code>menu_count++;</code></li>
+            </ol>
+          </p>
+
+          <p>
+            Assume you are now in the <code>ODD_DUCK</code> state and the <code>DO</code> event is dispatched. Assume <code>water_count == 0</code>. 
+            <ol>
+              <li><code>water_count++;</code></li>
+              <li>transition guard <code>[water_count > X]</code> is evaluated to false</li>
+              <li><code>bev_count++;</code></li>
+              <li><code>menu_count++;</code></li>
+            </ol>
+          </p>
+
+          <p>
+            You can play with an actual example <a href="sim/do_1.sim.html">here</a> (requires a desktop).
+            <i>
+              Note that the simulator behaves correctly, but has some diagram rendering <a href="https://github.com/StateSmith/StateSmith/wiki/Simulator">limitations</a>.
+            </i>
+          </p>
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <img class="d-block mx-auto img" src="sim/do_1.png">
+        </div>
+
+      </div>
+    </div>
+
+
 
 
     <!-- MORE -->
