@@ -826,7 +826,7 @@ I would really appreciate making the content work better on mobile devices.
           </p>
 
           <p>
-            You can play with an actual example <a href="sim/order_1.sim.html">here</a> (requires a desktop).
+            🕹️ You can play with an actual example <a href="sim/order_1.sim.html">here</a> (requires a desktop).
             <i>
               Note that the simulator behaves correctly, but has some diagram rendering <a href="https://github.com/StateSmith/StateSmith/wiki/Simulator">limitations</a>.
             </i>
@@ -840,6 +840,76 @@ I would really appreciate making the content work better on mobile devices.
       </div>
     </div>
 
+
+
+
+    <div class="b-example-divider"></div>
+
+    <div class="SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Exit Points</h1>
+          <p class="lead">Handy Drawing Tool</p>
+          <p>
+            Exit points are just a diagramming aid. The `exit_pt` state machine example could be drawn with state <code>ON1</code> transitioning directly to
+            the <code>HALTED</code> state when the <code>OFF</code> event is dispatched. It's the exact same thing.
+          </p>
+
+          <p>
+            Exit points are exceptionally helpful though because they allow you to visually collapse the <code>ON_GROUP</code> state in draw.io, but still
+            have state <code>ON1</code> transition to <code>HALTED</code> when the <code>OFF</code> event is dispatched.
+            <a href="https://github.com/StateSmith/StateSmith/wiki/draw.io:-tips#visually-collapse-a-state">Visually collapsing states</a>
+            is a great way of managing large and complex state machines.
+          </p>
+
+          <p>
+            You can find the behavior syntax for exit points <a href="https://github.com/StateSmith/StateSmith/wiki/Behaviors">here</a>.
+          </p>
+
+          <p>
+            🕹️ You can play with an actual example <a href="sim/exit_pt.sim.html">here</a> (requires a desktop).
+          </p>
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <img class="d-block mx-auto img" src="sim/exit-pt.svg">
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="b-example-divider"></div>
+
+    <div class="SS_HIDE_WHILE_LOADING SS_TEMPLATE_CONTAINER">
+      <div class="SS_TEMPLATE_CONTENT">
+
+        <div class="SS_TEMPLATE_CONTENT_LEFT">
+          <h1 class="SS_TEMPLATE_CONTENT_HEADER">Entry Points</h1>
+          <p class="lead">Like Exit Points</p>
+          <p>
+            Entry points are just like exit points (see above section). They are great for working with visually collapsed states in draw.io.
+            The `entry_pt` state machine example could be drawn with state <code>SHUT_OFF</code> transitioning directly to
+            the <code>ON1</code> state when the <code>ON</code> event is dispatched. It's the exact same thing.
+          </p>
+
+          <p>
+            You can find the behavior syntax for entry points <a href="https://github.com/StateSmith/StateSmith/wiki/Behaviors">here</a>.
+          </p>
+
+          <p>
+            🕹️ You can play with an actual example <a href="sim/entry_pt.sim.html">here</a> (requires a desktop).
+          </p>
+        </div>
+
+        <div class="SS_TEMPLATE_CONTENT_RIGHT">
+          <img class="d-block mx-auto img" src="sim/entry-pt.svg">
+        </div>
+
+      </div>
+    </div>
 
 
 
@@ -893,7 +963,7 @@ I would really appreciate making the content work better on mobile devices.
           </p>
 
           <p>
-            You can play with an actual example <a href="sim/do_1.sim.html">here</a> (requires a desktop).
+            🕹️ You can play with an actual example <a href="sim/do_1.sim.html">here</a> (requires a desktop).
             <i>
               Note that the simulator behaves correctly, but has some diagram rendering <a href="https://github.com/StateSmith/StateSmith/wiki/Simulator">limitations</a>.
             </i>
@@ -922,10 +992,10 @@ I would really appreciate making the content work better on mobile devices.
           <p>
             Things like
             <code>Deep History</code>,
-            <code>Entry points</code>,
-            <code>Exit points</code>...
+            <code>Trigger Maps</code>,
+            <code><a href="https://github.com/StateSmith/StateSmith-examples/blob/main/parent-alias-1/README.md">Parent Alias</a></code>...
           </p>
-          <p>You can find more info <a href="https://github.com/StateSmith/StateSmith/blob/main/docs/diagram-features.md">here</a>.</p>
+          <p>You can find more info in the <a href="https://github.com/StateSmith/StateSmith-examples">examples repo</a>, and <a href="https://github.com/StateSmith/StateSmith/blob/main/docs/diagram-features.md">diagram-features.md</a>.</p>
           <p>More interactive samples are in the works.</p>
         </div>
 
