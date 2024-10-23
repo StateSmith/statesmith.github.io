@@ -518,11 +518,17 @@ I would really appreciate making the content work better on mobile devices.
             feed them the next event (no thread, or background CPU usage).</p>
 
           <p>If you need to poll certain conditions, simply send the <code>DO</code> event to your state machine at the
-            rate you want. You have full control over how and when the state machine runs.</p>
+            rate you want. You have full control over how and when the state machine runs. Very helpful for embedded systems and game development.</p>
 
           <p>Any transition without an event specified will use the <code>DO</code> event. This is different than UML,
             but
             we found the UML way caused problems for most users.
+          </p>
+
+          <p>
+            This example "polls" its state machine by dispatching a <code>DO</code> event at the rate specified below.
+            When the state machine runs, it "polls" (checks) its <b>Switch input</b> to determine whether it should transition.
+            <code>DO</code> event count: <span class="event-count">0</span>
           </p>
 
           <div class="d-grid gap-2 d-flex">
@@ -539,6 +545,8 @@ I would really appreciate making the content work better on mobile devices.
                 <option value="100">Poll at 0.1 sec</option>
                 <option value="500">Poll at 0.5 sec</option>
                 <option value="1000" selected>Poll at 1 sec</option>
+                <option value="2000">Poll at 2 sec</option>
+                <option value="5000">Poll at 5 sec</option>
               </select>
             </div>
           </div>

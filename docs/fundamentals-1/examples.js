@@ -46,6 +46,7 @@ class ExampleConfig {
     postDispatch;
     ignoreHighlightClearOnDoEvent = true;
     sm;
+    eventCount = 0;
 
     constructor(smClass) {
         this.smClass = smClass;
@@ -69,15 +70,25 @@ class ExampleConfig {
 
         sm.start();
 
+        /** @type {HTMLSpanElement} */
+        const eventCountSpan = document.querySelector(`${divSelector} span.event-count`);
+
         let autoClearCheckbox = getCheckboxById(`${exName}-auto-clear-highlights`);
         let postDispatch = this.postDispatch;
         let countSpan = document.querySelector(`${divSelector} span.sm-var-count-value`);
+
+        const exampleConfig = this;
 
         /**
          * @param {number} eventId
          */
         function myDispatch(eventId, ignoreForClearHighlights) {
             dispatchEventToSm(sm, eventId, autoClearCheckbox, ignoreForClearHighlights);
+
+            exampleConfig.eventCount++;
+
+            if (eventCountSpan)
+                eventCountSpan.innerHTML = exampleConfig.eventCount + "";
 
             if (countSpan)
                 countSpan.innerHTML = sm.vars.count + "";
